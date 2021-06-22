@@ -3,17 +3,45 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C4B46ED267B710A007F7CD7 /* kiwix-manage in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46E9267B7109007F7CD7 /* kiwix-manage */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4C4B46EE267B710A007F7CD7 /* kiwix-search in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46EA267B7109007F7CD7 /* kiwix-search */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4C4B46EF267B710A007F7CD7 /* kiwix-read in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46EB267B710A007F7CD7 /* kiwix-read */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4C4B46F0267B710A007F7CD7 /* kiwix-serve in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46EC267B710A007F7CD7 /* kiwix-serve */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4C5D6314267F9EB300E01C67 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 4C5D6313267F9EB300E01C67 /* LaunchAtLogin */; };
 		4C6F15E52679BEE000AEF6D3 /* KiwingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */; };
 		4C6F15E72679BEE000AEF6D3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6F15E62679BEE000AEF6D3 /* ContentView.swift */; };
 		4C6F15E92679BEE100AEF6D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C6F15E82679BEE100AEF6D3 /* Assets.xcassets */; };
 		4C6F15EC2679BEE100AEF6D3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C6F15EB2679BEE100AEF6D3 /* Preview Assets.xcassets */; };
+		4CE1B7F6267B071B0001DCD9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE1B7F5267B071B0001DCD9 /* SettingsView.swift */; };
+		4CE7442926808F80006B8DEB /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE7442826808F80006B8DEB /* DataTypes.swift */; };
+		4CE7442B26808FF6006B8DEB /* CustomControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE7442A26808FF6006B8DEB /* CustomControls.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4C4B46E8267B7096007F7CD7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				4C4B46ED267B710A007F7CD7 /* kiwix-manage in CopyFiles */,
+				4C4B46EE267B710A007F7CD7 /* kiwix-search in CopyFiles */,
+				4C4B46EF267B710A007F7CD7 /* kiwix-read in CopyFiles */,
+				4C4B46F0267B710A007F7CD7 /* kiwix-serve in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		4C4B46E9267B7109007F7CD7 /* kiwix-manage */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-manage"; sourceTree = "<group>"; };
+		4C4B46EA267B7109007F7CD7 /* kiwix-search */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-search"; sourceTree = "<group>"; };
+		4C4B46EB267B710A007F7CD7 /* kiwix-read */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-read"; sourceTree = "<group>"; };
+		4C4B46EC267B710A007F7CD7 /* kiwix-serve */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-serve"; sourceTree = "<group>"; };
 		4C6F15E12679BEE000AEF6D3 /* Kiwings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiwingsApp.swift; sourceTree = "<group>"; };
 		4C6F15E62679BEE000AEF6D3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -21,6 +49,9 @@
 		4C6F15EB2679BEE100AEF6D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4C6F15ED2679BEE100AEF6D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C6F15EE2679BEE100AEF6D3 /* Kiwings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kiwings.entitlements; sourceTree = "<group>"; };
+		4CE1B7F5267B071B0001DCD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4CE7442826808F80006B8DEB /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
+		4CE7442A26808FF6006B8DEB /* CustomControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControls.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C5D6314267F9EB300E01C67 /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +69,10 @@
 		4C6F15D82679BEE000AEF6D3 = {
 			isa = PBXGroup;
 			children = (
+				4C4B46E9267B7109007F7CD7 /* kiwix-manage */,
+				4C4B46EB267B710A007F7CD7 /* kiwix-read */,
+				4C4B46EA267B7109007F7CD7 /* kiwix-search */,
+				4C4B46EC267B710A007F7CD7 /* kiwix-serve */,
 				4C6F15E32679BEE000AEF6D3 /* Kiwings */,
 				4C6F15E22679BEE000AEF6D3 /* Products */,
 			);
@@ -59,6 +95,9 @@
 				4C6F15ED2679BEE100AEF6D3 /* Info.plist */,
 				4C6F15EE2679BEE100AEF6D3 /* Kiwings.entitlements */,
 				4C6F15EA2679BEE100AEF6D3 /* Preview Content */,
+				4CE1B7F5267B071B0001DCD9 /* SettingsView.swift */,
+				4CE7442826808F80006B8DEB /* DataTypes.swift */,
+				4CE7442A26808FF6006B8DEB /* CustomControls.swift */,
 			);
 			path = Kiwings;
 			sourceTree = "<group>";
@@ -81,12 +120,17 @@
 				4C6F15DD2679BEE000AEF6D3 /* Sources */,
 				4C6F15DE2679BEE000AEF6D3 /* Frameworks */,
 				4C6F15DF2679BEE000AEF6D3 /* Resources */,
+				4C4B46E8267B7096007F7CD7 /* CopyFiles */,
+				4C5D6315267F9EF800E01C67 /* Copy "Launch at Login Helper" */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Kiwings;
+			packageProductDependencies = (
+				4C5D6313267F9EB300E01C67 /* LaunchAtLogin */,
+			);
 			productName = Kiwings;
 			productReference = 4C6F15E12679BEE000AEF6D3 /* Kiwings.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +158,9 @@
 				Base,
 			);
 			mainGroup = 4C6F15D82679BEE000AEF6D3;
+			packageReferences = (
+				4C5D6312267F9EB300E01C67 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+			);
 			productRefGroup = 4C6F15E22679BEE000AEF6D3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -135,11 +182,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4C5D6315267F9EF800E01C67 /* Copy "Launch at Login Helper" */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy \"Launch at Login Helper\"";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4C6F15DD2679BEE000AEF6D3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CE1B7F6267B071B0001DCD9 /* SettingsView.swift in Sources */,
+				4CE7442926808F80006B8DEB /* DataTypes.swift in Sources */,
+				4CE7442B26808FF6006B8DEB /* CustomControls.swift in Sources */,
 				4C6F15E72679BEE000AEF6D3 /* ContentView.swift in Sources */,
 				4C6F15E52679BEE000AEF6D3 /* KiwingsApp.swift in Sources */,
 			);
@@ -257,6 +328,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -333,6 +405,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4C5D6312267F9EB300E01C67 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4C5D6313267F9EB300E01C67 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C5D6312267F9EB300E01C67 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			productName = LaunchAtLogin;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4C6F15D92679BEE000AEF6D3 /* Project object */;
 }
