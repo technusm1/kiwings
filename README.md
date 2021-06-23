@@ -18,7 +18,8 @@ What can I say,
 - I had time to kill
 - I wanted to write one
 
-Please be advised, THIS TOOL IS NOT TESTED FOR GENERAL USE. On my part, I'm releasing the tool as a sandboxed app, but this tool is RELEASED AS IS, WITH NO WARRANTY - IMPLIED OR OTHERWISE. Being a sandboxed app, there's not much damage this app can do (it doesn't write anywhere, only has read-only permission for your ZIM files). Still, its better to exercise caution, and don't be an idiot.
+> 🔥Please be advised, THIS TOOL IS NOT TESTED FOR GENERAL USE. On my part, I'm releasing the tool as a sandboxed app, but this tool is RELEASED AS IS, WITH NO WARRANTY - IMPLIED OR OTHERWISE. Being a sandboxed app, there's not much damage this app can do (it doesn't write anywhere, only has read-only permission for your ZIM files). Still, its better to exercise caution, and don't be an idiot.
+> If you feel some things like LICENSE, CREDITS etc. are missing, rest assured, I'm taking my time adding them to the app. Remember, this is still a work in progress.
 
 ## Features
 - Written in AppKit and SwiftUI.
