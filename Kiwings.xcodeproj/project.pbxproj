@@ -49,7 +49,6 @@
 		4C6F15EB2679BEE100AEF6D3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4C6F15ED2679BEE100AEF6D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C6F15EE2679BEE100AEF6D3 /* Kiwings.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kiwings.entitlements; sourceTree = "<group>"; };
-		4CCCBF7F268266DD003F9984 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4CE1B7F5267B071B0001DCD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4CE7442826808F80006B8DEB /* DataTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTypes.swift; sourceTree = "<group>"; };
 		4CE7442A26808FF6006B8DEB /* CustomControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControls.swift; sourceTree = "<group>"; };
@@ -92,7 +91,6 @@
 			children = (
 				4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */,
 				4C6F15E62679BEE000AEF6D3 /* ContentView.swift */,
-				4CCCBF7F268266DD003F9984 /* README.md */,
 				4C6F15E82679BEE100AEF6D3 /* Assets.xcassets */,
 				4C6F15ED2679BEE100AEF6D3 /* Info.plist */,
 				4C6F15EE2679BEE100AEF6D3 /* Kiwings.entitlements */,
