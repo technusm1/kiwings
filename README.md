@@ -30,6 +30,12 @@ Please be advised, THIS TOOL IS NOT TESTED FOR GENERAL USE. On my part, I'm rele
 ## Wishes
 I would love to host this app on the macOS App Store (and avail all the nice features like automatic updates), once I have some money to enroll into Apple's Developer Program. 99 USD/yr ain't exactly cheap.
 
+## Build Instructions
+TBA
+
+## Installation
+TBA. The plan is to have two builds, one that comes with all the necessary kiwix-tools bundled together and the other that is just the UI app itself, which will be useful for those who wish to use alternate builds of kiwix-tools.
+
 ## Screenshots
 Default startup                            |  Kiwix Running
 :-----------------------------------------:|:------------------------------------------:
