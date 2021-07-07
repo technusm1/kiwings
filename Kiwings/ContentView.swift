@@ -13,6 +13,7 @@ struct ContentView: View {
     
     @AppStorage("port") var port: Int = 80
     @AppStorage("kiwixLibs") var kiwixLibs: [KiwixLibraryFile] = []
+    @AppStorage("kiwixLibBookmarks") var kiwixLibBookmarks: [Data] = []
     @AppStorage("kiwixPath") var kiwixPath: String = ""
     @AppStorage("savedKiwixPaths") var savedKiwixPaths: [String] = []
     
@@ -87,7 +88,12 @@ struct ContentView: View {
                                 fpanel.allowedFileTypes = ["zim"]
                                 fpanel.begin { response in
                                     if response == .OK {
-                                        self.kiwixLibs.append(contentsOf: fpanel.urls.map({ KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: true) }))
+                                        self.kiwixLibs.append(contentsOf: fpanel.urls.map({
+                                            let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
+                                            self.kiwixLibBookmarks.append(data)
+                                            print("Bookmark stored")
+                                            return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: true)
+                                        }))
                                     }
                                 }
                             } else if control.isSelected(forSegment: 1) {
@@ -101,6 +107,18 @@ struct ContentView: View {
                     Toggle("", isOn: $startKiwix).onChange(of: startKiwix, perform: { value in
                         if value {
                             print("Starting kiwix")
+                            // Enable access to all bookmarked kiwix libraries before execution
+                            for bookmark in kiwixLibBookmarks {
+                                var bookmarkDataIsStale: Bool = false
+                                let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
+                                if bookmarkDataIsStale {
+                                    print("WARNING: stale security bookmark")
+                                    return
+                                }
+                                if !url.startAccessingSecurityScopedResource() {
+                                    print("startAccessingSecurityScopedResource FAILED")
+                                }
+                            }
                             self.kiwixProcess = Process()
                             self.kiwixProcess?.arguments = ["-a", "\(ProcessInfo().processIdentifier)","-p", "\(port)"]
                             self.kiwixProcess?.arguments?.append(contentsOf: kiwixLibs.filter({ $0.isEnabled }).map({ $0.path }))
@@ -115,6 +133,16 @@ struct ContentView: View {
                                 try self.kiwixProcess?.run()
                             } catch {
                                 print("unable to launch kiwix")
+                                for bookmark in kiwixLibBookmarks {
+                                    var bookmarkDataIsStale: Bool = false
+                                    let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
+                                    if bookmarkDataIsStale {
+                                        print("WARNING: stale security bookmark")
+                                        return
+                                    }
+                                    url.stopAccessingSecurityScopedResource()
+                                }
+                                print("Stopped resource access due to exception")
                                 self.startKiwix = false
                                 self.kiwixProcess = nil
                             }
@@ -122,6 +150,16 @@ struct ContentView: View {
                             print("Stopping kiwix")
                             self.kiwixProcess?.terminate()
                             self.kiwixProcess = nil
+                            for bookmark in kiwixLibBookmarks {
+                                var bookmarkDataIsStale: Bool = false
+                                let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
+                                if bookmarkDataIsStale {
+                                    print("WARNING: stale security bookmark")
+                                    return
+                                }
+                                url.stopAccessingSecurityScopedResource()
+                            }
+                            print("Program terminated. Stopped resource access.")
                         }
                     }).toggleStyle(CheckmarkToggleStyle(scaleFactor: 2))
                     BrowserListHorizontalStrip(port: $port)
