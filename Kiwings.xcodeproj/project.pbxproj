@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C4B46ED267B710A007F7CD7 /* kiwix-manage in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46E9267B7109007F7CD7 /* kiwix-manage */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4C4B46EE267B710A007F7CD7 /* kiwix-search in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46EA267B7109007F7CD7 /* kiwix-search */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		4C4B46EF267B710A007F7CD7 /* kiwix-read in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46EB267B710A007F7CD7 /* kiwix-read */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C4B46F0267B710A007F7CD7 /* kiwix-serve in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46EC267B710A007F7CD7 /* kiwix-serve */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C5D6314267F9EB300E01C67 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 4C5D6313267F9EB300E01C67 /* LaunchAtLogin */; };
 		4C6F15E52679BEE000AEF6D3 /* KiwingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */; };
@@ -29,9 +26,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				4C4B46ED267B710A007F7CD7 /* kiwix-manage in CopyFiles */,
-				4C4B46EE267B710A007F7CD7 /* kiwix-search in CopyFiles */,
-				4C4B46EF267B710A007F7CD7 /* kiwix-read in CopyFiles */,
 				4C4B46F0267B710A007F7CD7 /* kiwix-serve in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -39,9 +33,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4C4B46E9267B7109007F7CD7 /* kiwix-manage */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-manage"; sourceTree = "<group>"; };
-		4C4B46EA267B7109007F7CD7 /* kiwix-search */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-search"; sourceTree = "<group>"; };
-		4C4B46EB267B710A007F7CD7 /* kiwix-read */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-read"; sourceTree = "<group>"; };
 		4C4B46EC267B710A007F7CD7 /* kiwix-serve */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-serve"; sourceTree = "<group>"; };
 		4C6F15E12679BEE000AEF6D3 /* Kiwings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiwingsApp.swift; sourceTree = "<group>"; };
@@ -71,9 +62,6 @@
 		4C6F15D82679BEE000AEF6D3 = {
 			isa = PBXGroup;
 			children = (
-				4C4B46E9267B7109007F7CD7 /* kiwix-manage */,
-				4C4B46EB267B710A007F7CD7 /* kiwix-read */,
-				4C4B46EA267B7109007F7CD7 /* kiwix-search */,
 				4C4B46EC267B710A007F7CD7 /* kiwix-serve */,
 				4C6F15E32679BEE000AEF6D3 /* Kiwings */,
 				4C6F15E22679BEE000AEF6D3 /* Products */,
