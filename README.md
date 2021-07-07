@@ -37,7 +37,11 @@ I would love to host this app on the macOS App Store (and avail all the nice fea
 TBA
 
 ## Installation
-TBA. The plan is to have two builds, one that comes with all the necessary kiwix-tools bundled together and the other that is just the UI app itself, which will be useful for those who wish to use alternate builds of kiwix-tools.
+- Download the latest release from [here](https://github.com/mkathuri/kiwings/releases/download/1.0/Kiwings-1.0.zip).
+- Extract the zip file. On macOS, double-clicking a zip file extracts it by default.
+- Copy the resultant application bundle into your Applications folder.
+
+I'll see if I can release a DMG file in the future. Hopefully, existing macOS users will find things easier then.
 
 ## Screenshots
 Default startup                            |  Kiwix Running
