@@ -24,6 +24,7 @@ What can I say,
 
 ## Features
 - Written in AppKit and SwiftUI.
+- Sandboxed. So it has lesser chances of damaging your computer if it is compromised.
 - Menu bar app that's available when you need it.
 - Automatically detects installed browsers on your machine, and allows you to launch your content library from any of them.
 - Open-source, so you can change what you don't like instead of filing a bug report with me.
