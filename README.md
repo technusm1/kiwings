@@ -30,23 +30,24 @@ What can I say,
 - Open-source, so you can change what you don't like instead of filing a bug report with me.
 - Exclusive, me-approved UI - tailored for my personal tastes.
 
-## Wishes
-I would love to host this app on the macOS App Store (and avail all the nice features like automatic updates), once I have some money to enroll into Apple's Developer Program. 99 USD/yr ain't exactly cheap.
+## Screenshots
+Default startup                            |  Kiwix Running
+:-----------------------------------------:|:------------------------------------------:
+![](./screenshots/Screenshot-Stopped.png)  |  ![](./screenshots/Screenshot-Running.png)
 
-## Build Instructions
-TBA
 
 ## Installation
 - Download the latest release from [here](https://github.com/mkathuri/kiwings/releases/download/1.0/Kiwings-1.0.zip).
 - Extract the zip file. On macOS, double-clicking a zip file extracts it by default.
 - Copy the resultant application bundle into your Applications folder.
 
-I'll see if I can release a DMG file in the future. Hopefully, existing macOS users will find things easier then.
+I'll see if I can release a DMG file in the future. Hopefully, existing macOS users will find things easier then. :smile:
 
-## Screenshots
-Default startup                            |  Kiwix Running
-:-----------------------------------------:|:------------------------------------------:
-![](./screenshots/Screenshot-Stopped.png)  |  ![](./screenshots/Screenshot-Running.png)
+## Build Instructions
+TBA
+
+## Wishes
+I would love to host this app on the macOS App Store (and avail all the nice features like automatic updates), once I have some money to enroll into Apple's Developer Program. 99 USD/yr ain't exactly cheap.
 
 ## I've got feedback
 Great. Unfortunately I've run out of time to kill. So, it may not be possible for me to attend to your concerns. Feel free to raise a GitHub issue, I'll see what I can do about it. NO GUARANTEES.
