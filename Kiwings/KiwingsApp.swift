@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         popover.contentViewController?.view = NSHostingView(rootView: contentView)
         popover.contentViewController?.view.window?.makeKey()
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusBarItem?.button?.title = "Test"
+        statusBarItem?.button?.title = "KiwiX"
         statusBarItem?.button?.action = #selector(AppDelegate.togglePopover(_:))
     }
     
