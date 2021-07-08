@@ -31,7 +31,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         popover.contentViewController?.view = NSHostingView(rootView: contentView)
         popover.contentViewController?.view.window?.makeKey()
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        statusBarItem?.button?.title = "KiwiX"
+//        statusBarItem?.button?.attributedTitle = NSAttributedString(string: "K")
+        statusBarItem?.button?.image = NSImage(systemSymbolName: "hexagon.fill", accessibilityDescription: nil)
+        statusBarItem?.button?.image = NSImage(contentsOf: Bundle.main.urlForImageResource("AppIcon")!)
+        statusBarItem?.button?.image?.size = NSSize(width: 24, height: 24)
+        statusBarItem?.button?.imageScaling = .scaleProportionallyUpOrDown
+        statusBarItem?.button?.imagePosition = .imageOverlaps
         statusBarItem?.button?.action = #selector(AppDelegate.togglePopover(_:))
     }
     
