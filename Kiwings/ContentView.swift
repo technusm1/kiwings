@@ -14,7 +14,7 @@ struct ContentView: View {
     @AppStorage("port") var port: Int = 80
     @AppStorage("kiwixLibs") var kiwixLibs: [KiwixLibraryFile] = []
     @AppStorage("kiwixLibBookmarks") var kiwixLibBookmarks: [Data] = []
-    @AppStorage("kiwixPath") var kiwixPath: String = ""
+    @AppStorage("kiwixPath") var kiwixPath: String = "bundled"
     @AppStorage("savedKiwixPaths") var savedKiwixPaths: [String] = []
     
     @State var startKiwix: Bool = false
