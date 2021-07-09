@@ -171,6 +171,7 @@ struct MKTextField: NSViewRepresentable {
     @Binding var value: Int
     var minValue: Int?
     var maxValue: Int?
+    var placeholderText: String
     
     func makeCoordinator() -> MKTextField.Coordinator {
         Coordinator(parent: self)
@@ -182,12 +183,13 @@ struct MKTextField: NSViewRepresentable {
         textField.bezelStyle = .roundedBezel
         textField.alignment = .center
         textField.formatter = NumberFormatter()
+        textField.placeholderString = placeholderText
         return textField
     }
     
     func updateNSView(_ nsView: NSTextField, context: Context) {
         if let minVal = minValue, let maxVal = maxValue {
-            if !(minVal...maxVal).contains(value) {
+            if !(minVal...maxVal).contains(value) || value == 0 {
                 value = 80
             }
             nsView.integerValue = value
@@ -215,7 +217,7 @@ struct StepperField: View {
     var maxValue: Int?
     var body: some View {
         ZStack {
-            MKTextField(value: value, minValue: minValue, maxValue: maxValue)
+            MKTextField(value: value, minValue: minValue, maxValue: maxValue, placeholderText: placeholderText)
             HStack(alignment: .center) {
                 Button(action: {
                     self.value.wrappedValue -= 1
