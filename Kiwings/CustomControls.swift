@@ -167,6 +167,47 @@ struct CheckmarkToggleStyle: ToggleStyle {
     }
 }
 
+struct MKTextField: NSViewRepresentable {
+    @Binding var value: Int
+    var minValue: Int?
+    var maxValue: Int?
+    
+    func makeCoordinator() -> MKTextField.Coordinator {
+        Coordinator(parent: self)
+    }
+    
+    func makeNSView(context: Context) -> NSTextField {
+        let textField = NSTextField()
+        textField.delegate = context.coordinator
+        textField.bezelStyle = .roundedBezel
+        textField.alignment = .center
+        textField.formatter = NumberFormatter()
+        return textField
+    }
+    
+    func updateNSView(_ nsView: NSTextField, context: Context) {
+        if let minVal = minValue, let maxVal = maxValue {
+            if !(minVal...maxVal).contains(value) {
+                value = 80
+            }
+            nsView.integerValue = value
+        }
+    }
+    
+    class Coordinator: NSObject, NSTextFieldDelegate {
+        let parent: MKTextField
+        
+        init(parent: MKTextField) {
+            self.parent = parent
+        }
+        
+        func controlTextDidChange(_ obj: Notification) {
+            guard let textField = obj.object as? NSTextField else { return }
+            self.parent.value = textField.integerValue
+        }
+    }
+}
+
 struct StepperField: View {
     var placeholderText: String
     var value: Binding<Int>
@@ -174,12 +215,7 @@ struct StepperField: View {
     var maxValue: Int?
     var body: some View {
         ZStack {
-            let binding = Binding<Int>(
-                get: { self.value.wrappedValue },
-                set: { self.value.wrappedValue = $0 }
-            )
-            TextField(placeholderText, value: binding, formatter: NumberFormatter()).textFieldStyle(RoundedBorderTextFieldStyle())
-                .multilineTextAlignment(.center)
+            MKTextField(value: value, minValue: minValue, maxValue: maxValue)
             HStack(alignment: .center) {
                 Button(action: {
                     self.value.wrappedValue -= 1
