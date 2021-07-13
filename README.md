@@ -41,13 +41,13 @@ Default startup                            |  Kiwix Running
 - Extract the zip file. On macOS, double-clicking a zip file extracts it by default.
 - Copy the resultant application bundle into your Applications folder.
 
-I'll see if I can release a DMG file in the future. Hopefully, existing macOS users will find things easier then. :smile:
+I'll see if I can release a DMG file in the future. Hopefully, existing macOS users will find things a bit easier then. :smile:
 
 ## Build Instructions
-TBA
+There are 3 simple steps: Checkout the project, you open the project in Xcode and you build it. Easy, right?
 
 ## Wishes
 I would love to host this app on the macOS App Store (and avail all the nice features like automatic updates), once I have some money to enroll into Apple's Developer Program. 99 USD/yr ain't exactly cheap.
 
 ## I've got feedback
-Great. Unfortunately I've run out of time to kill. So, it may not be possible for me to attend to your concerns. Feel free to raise a GitHub issue, I'll see what I can do about it. NO GUARANTEES.
+Great. Two things you should know here: I designed this tool in accordance with my own use-cases, and I'm really short on time these days. So, it may not be possible for me to attend to your concerns. Feel free to raise a GitHub issue or send me any feedback if you'd like, I'll see what I can do about it. NO GUARANTEES.
