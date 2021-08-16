@@ -10,6 +10,7 @@ import Foundation
 struct KiwixLibraryFile: Codable {
     var path: String
     var isEnabled: Bool
+    var bookmark: Data
 }
 
 extension Array: RawRepresentable where Element: Codable {

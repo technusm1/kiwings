@@ -13,7 +13,6 @@ struct ContentView: View {
     
     @AppStorage("port") var port: Int = 80
     @AppStorage("kiwixLibs") var kiwixLibs: [KiwixLibraryFile] = []
-    @AppStorage("kiwixLibBookmarks") var kiwixLibBookmarks: [Data] = []
     @AppStorage("kiwixPath") var kiwixPath: String = "bundled"
     @AppStorage("savedKiwixPaths") var savedKiwixPaths: [String] = []
     
@@ -90,9 +89,8 @@ struct ContentView: View {
                                     if response == .OK {
                                         self.kiwixLibs.append(contentsOf: fpanel.urls.map({
                                             let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
-                                            self.kiwixLibBookmarks.append(data)
                                             print("Bookmark stored")
-                                            return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: true)
+                                            return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: true, bookmark: data)
                                         }))
                                     }
                                 }
@@ -108,41 +106,52 @@ struct ContentView: View {
                         if value {
                             print("Starting kiwix")
                             // Enable access to all bookmarked kiwix libraries before execution
-                            for bookmark in kiwixLibBookmarks {
+                            var staleIndices: IndexSet = []
+                            for libIndex in 0..<kiwixLibs.count {
+                                let bookmark = kiwixLibs[libIndex].bookmark
                                 var bookmarkDataIsStale: Bool = false
                                 let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
                                 if bookmarkDataIsStale {
                                     print("WARNING: stale security bookmark")
-                                    return
+                                    staleIndices.insert(libIndex)
+                                    continue
                                 }
                                 if !url.startAccessingSecurityScopedResource() {
                                     print("startAccessingSecurityScopedResource FAILED")
                                 }
                             }
-                            self.kiwixProcess = Process()
-                            self.kiwixProcess?.arguments = ["-a", "\(ProcessInfo().processIdentifier)","-p", "\(port)"]
-                            self.kiwixProcess?.arguments?.append(contentsOf: kiwixLibs.filter({ $0.isEnabled }).map({ $0.path }))
-                            if self.kiwixPath == "bundled" {
-                                self.kiwixProcess?.executableURL = Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve")?.absoluteURL
-                            } else {
-                                self.kiwixProcess?.executableURL = URL(fileURLWithPath: self.kiwixPath).absoluteURL
-                            }
-                            do {
-                                print("Gonna run now")
-                                print(self.kiwixProcess?.arguments)
-                                try self.kiwixProcess?.run()
-                            } catch {
-                                print("unable to launch kiwix")
-                                for bookmark in kiwixLibBookmarks {
-                                    var bookmarkDataIsStale: Bool = false
-                                    let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
-                                    if bookmarkDataIsStale {
-                                        print("WARNING: stale security bookmark")
-                                        return
-                                    }
-                                    url.stopAccessingSecurityScopedResource()
+                            kiwixLibs.remove(atOffsets: staleIndices)
+                            let kiwixLibsToUse = kiwixLibs.filter({ $0.isEnabled }).map({ $0.path })
+                            if !kiwixLibsToUse.isEmpty {
+                                self.kiwixProcess = Process()
+                                self.kiwixProcess?.arguments = ["-a", "\(ProcessInfo().processIdentifier)","-p", "\(port)"]
+                                self.kiwixProcess?.arguments?.append(contentsOf: kiwixLibsToUse)
+                                if self.kiwixPath == "bundled" {
+                                    self.kiwixProcess?.executableURL = Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve")?.absoluteURL
+                                } else {
+                                    self.kiwixProcess?.executableURL = URL(fileURLWithPath: self.kiwixPath).absoluteURL
                                 }
-                                print("Stopped resource access due to exception")
+                                do {
+                                    print("Gonna run now")
+                                    print(self.kiwixProcess?.arguments)
+                                    try self.kiwixProcess?.run()
+                                } catch {
+                                    print("unable to launch kiwix")
+                                    for lib in kiwixLibs {
+                                        let bookmark = lib.bookmark
+                                        var bookmarkDataIsStale: Bool = false
+                                        let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
+                                        if bookmarkDataIsStale {
+                                            print("WARNING: stale security bookmark")
+                                            continue
+                                        }
+                                        url.stopAccessingSecurityScopedResource()
+                                    }
+                                    print("Stopped resource access due to exception")
+                                    self.startKiwix = false
+                                    self.kiwixProcess = nil
+                                }
+                            } else {
                                 self.startKiwix = false
                                 self.kiwixProcess = nil
                             }
@@ -150,12 +159,13 @@ struct ContentView: View {
                             print("Stopping kiwix")
                             self.kiwixProcess?.terminate()
                             self.kiwixProcess = nil
-                            for bookmark in kiwixLibBookmarks {
+                            for lib in kiwixLibs {
+                                let bookmark = lib.bookmark
                                 var bookmarkDataIsStale: Bool = false
                                 let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
                                 if bookmarkDataIsStale {
                                     print("WARNING: stale security bookmark")
-                                    return
+                                    continue
                                 }
                                 url.stopAccessingSecurityScopedResource()
                             }
