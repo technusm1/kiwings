@@ -9,7 +9,7 @@ The name is based on and closely resembles the underlying project this UI is bas
 The Kiwix team also releases a command-line tool called `kiwix-serve`, which can serve as a server that can serve content from a given URL and port (e.g. localhost:8080). The benefit of using this tool is that it is lightweight and you can view all your content in the web-browser. And I can finally play my TED zims, at least on chromium-based browsers like Edge and Google Chrome. Unfortunately, it doesn't work in Safari. So, it seems one needs Chromium Engine to view TED videos on Kiwix.
 
 ### Going even further
-`kiwix-serve` is compatible with macOS, but the Kiwix team doesn't release any fat binaries for macOS yet due to some differences in how compilation works on macOS compared to other OSes. They are working on it though, but they've got their hands pretty full of other things. Luckily, I've managed to build fat binaries for `kiwix-serve` and other `kiwix-tools` and I've tested that things work well, at least on the latest version of macOS Big Sur 11.4 (too lazy to test backwards compatibility in a VM).
+`kiwix-serve` is compatible with macOS, but the Kiwix team doesn't release any standalone binaries for macOS yet due to some differences in how compilation works on macOS compared to other OSes. They are working on it though, but they've got their hands pretty full of other things. Luckily, due to the foundations already being in place, I've managed to build standalone binaries for `kiwix-serve` and other `kiwix-tools` and I've tested that things work well, at least on the latest version of macOS Big Sur 11.4 and macOS 12 beta (too lazy to test backwards compatibility in a VM).
 
 ## Why this tool?
 What can I say,
