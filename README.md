@@ -37,9 +37,9 @@ Default startup                            |  Kiwix Running
 
 
 ## Installation
-- Download the latest release from [here](https://github.com/mkathuri/kiwings/releases/download/1.0/Kiwings-1.0.zip).
-- Extract the zip file. On macOS, double-clicking a zip file extracts it by default.
-- Copy the resultant application bundle into your Applications folder.
+- Download the latest release from [here](https://github.com/mkathuri/kiwings/releases/download/1.0-beta1/Kiwings-1.0.dmg).
+- Open the DMG file in Finder.
+- Drag and Drop the KiWings app into your Applications folder.
 
 I'll see if I can release a DMG file in the future. Hopefully, existing macOS users will find things a bit easier then. :smile:
 
