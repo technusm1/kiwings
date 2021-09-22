@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LaunchAtLogin
+import os
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -103,8 +104,9 @@ struct ContentView: View {
                     }
                     
                     Toggle("", isOn: $startKiwix).onChange(of: startKiwix, perform: { value in
+                        let logger = Logger()
                         if value {
-                            print("Starting kiwix")
+                            logger.info("Preparing kiwix-serve for execution")
                             // Enable access to all bookmarked kiwix libraries before execution
                             var staleIndices: IndexSet = []
                             for libIndex in 0..<kiwixLibs.count {
@@ -132,11 +134,12 @@ struct ContentView: View {
                                     self.kiwixProcess?.executableURL = URL(fileURLWithPath: self.kiwixPath).absoluteURL
                                 }
                                 do {
-                                    print("Gonna run now")
-                                    print(self.kiwixProcess?.arguments)
+                                    logger.info("Trying to execute command: kiwix-serve")
+                                    let programArgs: [String] = (self.kiwixProcess?.arguments) ?? ["Invalid ARGS"]
+                                    logger.info("Program arguments: \(programArgs)")
                                     try self.kiwixProcess?.run()
                                 } catch {
-                                    print("unable to launch kiwix")
+                                    logger.error("Unable to launch kiwix-serve. The following error occured: \(error.localizedDescription)")
                                     for lib in kiwixLibs {
                                         let bookmark = lib.bookmark
                                         var bookmarkDataIsStale: Bool = false
@@ -147,16 +150,17 @@ struct ContentView: View {
                                         }
                                         url.stopAccessingSecurityScopedResource()
                                     }
-                                    print("Stopped resource access due to exception")
+                                    logger.error("Stopped resource access due to exception")
                                     self.startKiwix = false
                                     self.kiwixProcess = nil
                                 }
                             } else {
+                                logger.warning("No kiwix libraries found. Cannot start kiwix-serve")
                                 self.startKiwix = false
                                 self.kiwixProcess = nil
                             }
                         } else {
-                            print("Stopping kiwix")
+                            logger.info("Stopping kiwix-serve")
                             self.kiwixProcess?.terminate()
                             self.kiwixProcess = nil
                             for lib in kiwixLibs {
@@ -169,7 +173,7 @@ struct ContentView: View {
                                 }
                                 url.stopAccessingSecurityScopedResource()
                             }
-                            print("Program terminated. Stopped resource access.")
+                            logger.info("kiwix-serve terminated, stopped security-scoped resource access")
                         }
                     }).toggleStyle(CheckmarkToggleStyle(scaleFactor: 2))
                     BrowserListHorizontalStrip(port: $port)
