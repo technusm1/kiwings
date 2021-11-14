@@ -31,7 +31,7 @@ Default startup                            |  Kiwix Running
 There are 3 simple steps:
 - Checkout the project via git or download the source archive
 - Open the project in Xcode (tested on 12 and 13)
-- Build it.
+- Build it. It needs internet to fetch the underlying dependencies
 
 Easy, right?
 
@@ -39,5 +39,10 @@ Easy, right?
 I would love to host this app on the macOS App Store (and avail all the nice features like automatic updates), once I have some money to enroll into Apple's Developer Program. 99 USD/yr ain't exactly cheap.
 
 ## Giving feedback
-You've found an issue with this app, great. Two things you should know here: I designed this tool in accordance with my own use-cases, and I'm really short on time these days. So, it may not be possible for me to attend to your concerns in a timely. Feel free to raise a GitHub issue or send me any feedback if you'd like, I'll see what I can do about it.
+You've found an issue with this app, great. Two things you should know here: I designed this tool in accordance with my own use-cases, and I'm really short on time these days. So, it may not be possible for me to attend to your concerns in a timely manner. Feel free to raise a GitHub issue or send me any feedback if you'd like, I'll see what I can do about it.
 I'm also currently designing some sensible logging and feedback collection into the app so that bug reports can be submitted properly. Hopefully, they'll be present by v1.0-beta2.
+
+## Credits
+- The Kiwix team for developing kiwix-tools
+- Sindre Sorhus's LaunchAtLogin
+- Apple's Swift language and SwiftUI framework
