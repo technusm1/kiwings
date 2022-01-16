@@ -43,6 +43,6 @@ You've found an issue with this app, great. Two things you should know here: I d
 I'm also currently designing some sensible logging and feedback collection into the app so that bug reports can be submitted properly. Hopefully, they'll be present by v1.0-beta2.
 
 ## Credits
-- The Kiwix team for developing kiwix-tools
-- Sindre Sorhus's LaunchAtLogin
+- The Kiwix team for developing kiwix-tools. Source code is available here: https://github.com/kiwix/kiwix-tools
+- Sindre Sorhus's LaunchAtLogin: https://github.com/sindresorhus/LaunchAtLogin
 - Apple's Swift language and SwiftUI framework
