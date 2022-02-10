@@ -1,11 +1,11 @@
 #  KiWings
 
 ## Introduction
-KiWings is a Kiwix alternative for macOS. Kiwix is an open-source tool that allows you to read offline copies of fantastic content like Wikipedia (its a 80GB download), TED Talks etc. The product does what it is advertised to do, but it could indeed use a lot of improvements. For example: the Kiwix app (on macOS at least), is unable to view TED videos (no audio 😕). More information about Kiwix can be found on their [website](https://www.kiwix.org/). The benefit of using this tool is that it is lightweight and you can view all your content in the web-browser.
+KiWings is a lightweight Kiwix alternative for macOS. Kiwix is an open-source tool that allows you to read offline copies of fantastic content like Wikipedia (its a 80GB download), TED Talks etc.
 
-Under the hood, it is a front-end for `kiwix-serve` that is designed for macOS 11.3 and later. `kiwix-serve` is a tool designed by Kiwix team, which can work as a standalone content server.
+Under the hood, this tool is a front-end for `kiwix-serve` that is designed for macOS 11.3 and later. `kiwix-serve` is a tool designed by Kiwix team, which can work as a standalone content server, but as of writing this, is not directly released as macOS binary, though compilation is supported.
 
-**🔥CAUTION: THIS TOOL IS NOT TESTED FOR GENERAL USE. Bugs and shortcomings are unfortunately commonplace in software, especially this tool, which is very much a work in progress. On my part, I'm releasing the tool as a sandboxed app (meaning macOS will restrict its capabilities to do any damage), but this tool is RELEASED AS IS, WITH NO WARRANTY - IMPLIED OR OTHERWISE.**
+**🔥WARNING: THIS TOOL IS NOT TESTED FOR GENERAL USE. Bugs and shortcomings are unfortunately commonplace in software, especially this tool, which is very much a work in progress. On my part, I'm releasing the tool as a sandboxed app (meaning macOS will restrict its capabilities to do any damage), but this tool is RELEASED AS IS, WITH NO WARRANTY - IMPLIED OR OTHERWISE.**
 
 ## Features
 - Sandboxed. Less chances of damaging your computer. More peace of mind.
@@ -20,7 +20,7 @@ Default startup                            |  Kiwix Running
 
 
 ## Installation & Requirements
-- Please make sure you have macOS 11.3 or greater installed on your machine.
+- Please make sure you have macOS 11.3 or later installed on your machine.
 - Download the latest release from [here](https://github.com/mkathuri/kiwings/releases/download/1.0-beta1/Kiwings-1.0.dmg) (currently in beta).
 - Open the DMG file in Finder.
 - Drag and Drop the KiWings app into your Applications folder.
@@ -29,15 +29,15 @@ Default startup                            |  Kiwix Running
 There are 3 simple steps:
 - Checkout the project via git or download the source archive.
 - Open the project in Xcode (tested on 12 and 13).
-- Build it. It needs internet to fetch the underlying dependencies.
+- Build it. It needs internet to fetch the underlying dependencies, so make sure you are connected to the internet.
 
 Easy, right?
 
 ## Future plans
-I would love to host this app on the macOS App Store (and avail all the nice features like automatic updates), once I have some money to enroll into Apple's Developer Program. 99 USD/yr ain't exactly cheap.
+I would love to host this app on the macOS App Store (and avail all the nice features like automatic updates), or maybe pass it on to the original Kiwix team.
 
 ## Giving feedback
-You've found an issue with this app, great. But before you raise an issue, please make sure to search the Issues properly to see if there isn't any issue already filed. The other thing to know here is that I designed this tool in accordance with my own use-cases, and I'm really short on time these days. So, it may not be possible for me to attend to your concerns in a timely manner. That said, your feedback is extremely valuable and appreciated.
+Before you raise an issue, please make sure to search the **Issues** section properly to see if there isn't any issue already filed for the problem you're facing. The other thing to know here is that I'm a busy person. So, it may not be possible for me to attend to your concerns in a timely manner. That said, your feedback is extremely valuable and appreciated.
 
 ## Credits
 - Kiwix team's `kiwix-tools`. Source code is available here: https://github.com/kiwix/kiwix-tools
