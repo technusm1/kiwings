@@ -59,13 +59,14 @@ struct MKContentTable: NSViewRepresentable {
         let tableView = NSTableView()
         tableView.allowsMultipleSelection = true
         tableView.headerView = NSTableHeaderView()
-        let col1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "libFiles"))
-        col1.title = "Library Files"
-        tableView.addTableColumn(col1)
         
-        let col2 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "isEnabled"))
-        col2.title = "Enabled"
+        let col1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "isEnabled"))
+        col1.title = "Enabled"
+        tableView.addTableColumn(col1)
+        let col2 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "libFiles"))
+        col2.title = "Library Files"
         tableView.addTableColumn(col2)
+        
         tableView.usesAlternatingRowBackgroundColors = true
         tableView.delegate = context.coordinator
         tableView.dataSource = context.coordinator
