@@ -14,8 +14,6 @@ struct ContentView: View {
     
     @AppStorage("port") var port: Int = 80
     @AppStorage("kiwixLibs") var kiwixLibs: [KiwixLibraryFile] = []
-    @AppStorage("kiwixPath") var kiwixPath: String = "bundled"
-    @AppStorage("savedKiwixPaths") var savedKiwixPaths: [String] = []
     
     @State var startKiwix: Bool = false
     @State var kiwixProcess: Process? = nil
@@ -28,52 +26,11 @@ struct ContentView: View {
             TitleBarContentView()
             VStack {
                 VStack {
-                    Picker(selection: $kiwixPath, label: Text("Kiwix-serve:").bold(), content: {
-                        // Bundled Kiwix. Version is hardcoded for now
-                        if (Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve") != nil) {
-                            Text("3.1.2 (bundled)").tag("bundled")
-                        }
-                        // Any kiwix that user has browsed before and are currently available
-                        ForEach(self.savedKiwixPaths, id: \.self) { item in
-                            if fileManager.fileExists(atPath: item) {
-                                Text(item).tag(item)
-                            } else {
-                                Text(item).foregroundColor(.red).tag(item)
-                            }
-                            
-                        }
-                        Text("Browse").tag("browse")
-                        Divider()
-                        Text("Clear").tag("clear")
-                    })
-                    .onReceive([self.kiwixPath].publisher.first()) { (value) in
-                        if value == "browse" {
-                            self.kiwixPath = "bundled"
-                            let fpanel = NSOpenPanel()
-                            fpanel.allowsMultipleSelection = false
-                            fpanel.canChooseDirectories = false
-                            fpanel.canChooseFiles = true
-                            fpanel.canCreateDirectories = false
-                            fpanel.begin { response in
-                                if response == .OK {
-                                    if let filePath = fpanel.url?.absoluteURL.path {
-                                        self.savedKiwixPaths.append(filePath)
-                                        self.kiwixPath = filePath
-                                        NSApp.activate(ignoringOtherApps: true)
-                                    }
-                                }
-                            }
-                            NSApp.activate(ignoringOtherApps: true)
-                        } else if value == "clear" {
-                            self.kiwixPath = "bundled"
-                            self.savedKiwixPaths.removeAll()
-                        }
-                    }
                     HStack {
                         Text("Port:").bold().padding(.trailing)
                         Spacer()
                         StepperField(placeholderText: "Port for server", value: $port, minValue: 0, maxValue: 65535)
-                    }
+                    }.padding(.top, 5)
                     
                     VStack(spacing: 0) {
                         MKContentTable(data: self.$kiwixLibs, selection: self.$kiwixLibsTableSelectedRows)
@@ -128,11 +85,7 @@ struct ContentView: View {
                                 self.kiwixProcess = Process()
                                 self.kiwixProcess?.arguments = ["-a", "\(ProcessInfo().processIdentifier)","-p", "\(port)"]
                                 self.kiwixProcess?.arguments?.append(contentsOf: kiwixLibsToUse)
-                                if self.kiwixPath == "bundled" {
-                                    self.kiwixProcess?.executableURL = Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve")?.absoluteURL
-                                } else {
-                                    self.kiwixProcess?.executableURL = URL(fileURLWithPath: self.kiwixPath).absoluteURL
-                                }
+                                self.kiwixProcess?.executableURL = Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve")?.absoluteURL
                                 do {
                                     logger.info("Trying to execute command: kiwix-serve")
                                     let programArgs: [String] = (self.kiwixProcess?.arguments) ?? ["Invalid ARGS"]
@@ -179,7 +132,7 @@ struct ContentView: View {
                     BrowserListHorizontalStrip(port: $port)
                     .disabled(!startKiwix)
                 }
-                .padding(EdgeInsets(top: 4, leading: 8, bottom: 2, trailing: 8))
+                .padding(EdgeInsets(top: 4, leading: 8, bottom: 5, trailing: 8))
             }.background(colorScheme == .light ? Color.white : Color(NSColor.darkGray))
             StatusBarContentView(startKiwix: $startKiwix)
         }.padding(.vertical, 20)
@@ -225,10 +178,11 @@ struct StatusBarContentView: View {
     }
 }
 
+
 struct BrowserListHorizontalStrip: View {
-    var appURLs: [URL] = ((LSCopyApplicationURLsForURL(URL(string: "https:")! as CFURL, .all)?.takeRetainedValue()) as? [URL]) ?? []
+    var appURLs: [URL] = ((LSCopyApplicationURLsForURL(URL(string: "https:")! as CFURL, .viewer)?.takeRetainedValue()) as? [URL]) ?? []
     var appPaths: [String] {
-        appURLs.map({ Bundle(url: $0)!.bundlePath })
+        appURLs.map({ Bundle(url: $0)?.bundlePath ?? "" })
     }
     
     @Binding var port: Int
