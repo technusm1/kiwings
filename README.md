@@ -1,5 +1,7 @@
 #  KiWings
 
+![Build status](https://github.com/mkathuri/kiwings/actions/workflows/main.yml/badge.svg)
+
 ## Introduction
 KiWings is a lightweight Kiwix alternative for macOS. Kiwix is an open-source tool that allows you to read offline copies of fantastic content like Wikipedia (its a 80GB download), TED Talks etc.
 
