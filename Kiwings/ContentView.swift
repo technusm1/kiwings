@@ -8,6 +8,7 @@
 import SwiftUI
 import LaunchAtLogin
 import os
+import UniformTypeIdentifiers
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -180,7 +181,8 @@ struct StatusBarContentView: View {
 
 
 struct BrowserListHorizontalStrip: View {
-    var appURLs: [URL] = ((LSCopyApplicationURLsForURL(URL(string: "https:")! as CFURL, .viewer)?.takeRetainedValue()) as? [URL]) ?? []
+    var appURLs: [URL] = LSCopyApplicationURLsForURL(URL(string: "https:")! as CFURL, .viewer)?.takeRetainedValue() as? [URL] ?? []
+    
     var appPaths: [String] {
         appURLs.map({ Bundle(url: $0)?.bundlePath ?? "" })
     }
