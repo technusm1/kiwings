@@ -70,14 +70,17 @@ struct ContentView: View {
                             for libIndex in 0..<kiwixLibs.count {
                                 let bookmark = kiwixLibs[libIndex].bookmark
                                 var bookmarkDataIsStale: Bool = false
-                                let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
-                                if bookmarkDataIsStale {
-                                    print("WARNING: stale security bookmark")
+                                if let url = try? URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale) {
+                                    if bookmarkDataIsStale {
+                                        print("WARNING: stale security bookmark")
+                                        staleIndices.insert(libIndex)
+                                        continue
+                                    }
+                                    if !url.startAccessingSecurityScopedResource() {
+                                        print("startAccessingSecurityScopedResource FAILED")
+                                    }
+                                } else {
                                     staleIndices.insert(libIndex)
-                                    continue
-                                }
-                                if !url.startAccessingSecurityScopedResource() {
-                                    print("startAccessingSecurityScopedResource FAILED")
                                 }
                             }
                             kiwixLibs.remove(atOffsets: staleIndices)
