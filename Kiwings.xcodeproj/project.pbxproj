@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C183A2A284E3A2A00F9AD76 /* CheckboxHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C183A29284E3A2A00F9AD76 /* CheckboxHeaderCell.swift */; };
 		4C4B46F0267B710A007F7CD7 /* kiwix-serve in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46EC267B710A007F7CD7 /* kiwix-serve */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C5D6314267F9EB300E01C67 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 4C5D6313267F9EB300E01C67 /* LaunchAtLogin */; };
 		4C6F15E52679BEE000AEF6D3 /* KiwingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4C183A29284E3A2A00F9AD76 /* CheckboxHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxHeaderCell.swift; sourceTree = "<group>"; };
 		4C4B46EC267B710A007F7CD7 /* kiwix-serve */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-serve"; sourceTree = "<group>"; };
 		4C6F15E12679BEE000AEF6D3 /* Kiwings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiwingsApp.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				4CE7442826808F80006B8DEB /* DataTypes.swift */,
 				4CE7442A26808FF6006B8DEB /* CustomControls.swift */,
 				4CB2D74D2695EBEB00CBAE6C /* BookmarkUtil.swift */,
+				4C183A29284E3A2A00F9AD76 /* CheckboxHeaderCell.swift */,
 			);
 			path = Kiwings;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				4CB2D74E2695EBEB00CBAE6C /* BookmarkUtil.swift in Sources */,
 				4C6F15E72679BEE000AEF6D3 /* ContentView.swift in Sources */,
 				4C6F15E52679BEE000AEF6D3 /* KiwingsApp.swift in Sources */,
+				4C183A2A284E3A2A00F9AD76 /* CheckboxHeaderCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

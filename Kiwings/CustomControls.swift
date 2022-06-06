@@ -41,6 +41,16 @@ struct MKContentTable: NSViewRepresentable {
                 x.addConstraint(NSLayoutConstraint(item: textField, attribute: .centerY, relatedBy: .equal, toItem: x, attribute: .centerY, multiplier: 1, constant: 0))
                 return x
             } else if tableColumn?.identifier.rawValue == "isEnabled" {
+                if let headerCell = tableColumn?.headerCell as? CheckboxHeaderCell {
+                    if self.parent.data.allSatisfy({ $0.isEnabled == true }) {
+                        headerCell.alternateState = .on
+                    } else if self.parent.data.allSatisfy({ $0.isEnabled == false }) {
+                        headerCell.alternateState = .off
+                    } else {
+                        headerCell.alternateState = .mixed
+                    }
+                }
+                
                 let checkboxField = NSButton()
                 checkboxField.setButtonType(.switch)
                 checkboxField.state = self.parent.data[row].isEnabled ? .on : .off
@@ -53,6 +63,34 @@ struct MKContentTable: NSViewRepresentable {
                 return nil
             }
         }
+
+        func setupAlternateState(_ state: NSControl.StateValue) {
+            // modify data source
+            if state == .on {
+                for i in self.parent.data.indices {
+                    self.parent.data[i].isEnabled = true
+                }
+            } else if state == .off {
+                for i in self.parent.data.indices {
+                    self.parent.data[i].isEnabled = false
+                }
+            }
+        }
+
+        func tableView(_ tableView: NSTableView, didClick tableColumn: NSTableColumn) {
+            if tableColumn.identifier.rawValue == "isEnabled" {
+                if let headerCell = tableColumn.headerCell as? CheckboxHeaderCell {
+                    // apply state changes to its data source
+                    setupAlternateState(headerCell.toggleAlternateState())
+                    
+                    // reload display, select or deselect all checkboxes
+                    tableView.reloadData(
+                        forRowIndexes: IndexSet(integersIn: 0..<tableView.numberOfRows),
+                        columnIndexes: IndexSet(integer: 0)
+                    )
+                }
+            }
+        }
     }
     
     func makeNSView(context: Context) -> NSScrollView {
@@ -61,9 +99,9 @@ struct MKContentTable: NSViewRepresentable {
         tableView.headerView = NSTableHeaderView()
         
         let col1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "isEnabled"))
-        col1.title = "Enabled"
-        col1.minWidth = 20
-        col1.maxWidth = 60
+        col1.headerCell = CheckboxHeaderCell()
+//        col1.title = "Enabled"
+        col1.maxWidth = 18
         tableView.addTableColumn(col1)
         let col2 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "libFiles"))
         col2.title = "Library Files"
@@ -92,6 +130,11 @@ struct MKContentTable: NSViewRepresentable {
         return Coordinator(self)
     }
     
+}
+
+private extension NSUserInterfaceItemIdentifier {
+    // the checkbox column
+    static let columnChecked = NSUserInterfaceItemIdentifier("col-checked")
 }
 
 struct MKTableSegmentControl: NSViewRepresentable {
