@@ -3,17 +3,17 @@
 ![Build status](https://github.com/mkathuri/kiwings/actions/workflows/main.yml/badge.svg)
 
 ## Introduction
-KiWings is a lightweight Kiwix alternative for macOS. Kiwix is an open-source tool that allows you to read offline copies of fantastic content like Wikipedia (its a 80GB download), TED Talks etc.
+KiWings is a lightweight Kiwix alternative for macOS. Kiwix is an open-source tool that allows you to read offline copies of fantastic content like Wikipedia (its a 80GB download), TED Talks etc. Originally, I started working on this tool to learn UI development on macOS, an endeavor that continues to this day. But this tool has now become a full-fledged project itself.
 
-Under the hood, this tool is a front-end for `kiwix-serve` that is designed for macOS 11.3 and later. `kiwix-serve` is a tool designed by Kiwix team, which can work as a standalone content server, but as of writing this, is not directly released as macOS binary, though compilation is supported.
+Under the hood, this tool is a front-end for `kiwix-serve` designed for macOS 11.3 and later. `kiwix-serve` is a tool designed by Kiwix team, which can work as a standalone content server, but as of writing this, is not directly released as macOS binary, though compilation is supported.
 
-**🔥WARNING: THIS TOOL IS NOT TESTED FOR GENERAL USE. Bugs and shortcomings are unfortunately commonplace in software, especially this tool, which is very much a work in progress. On my part, I'm releasing the tool as a sandboxed app (meaning macOS will restrict its capabilities to do any damage), but this tool is RELEASED AS IS, WITH NO WARRANTY - IMPLIED OR OTHERWISE.**
+**🔥WARNING: Bugs and shortcomings are unfortunately commonplace in software. On my part, I'm releasing the tool as a sandboxed app (meaning macOS will restrict its capabilities to do any damage), but this tool is RELEASED AS IS, WITH NO WARRANTY - IMPLIED OR OTHERWISE.**
 
 ## Features
 - Sandboxed. Less chances of damaging your computer. More peace of mind.
 - Menu bar app that's available when you need it.
 - Automatically detects different installed browsers on your machine, and allows you to conveniently access your content library from any of them (see screenshots).
-- Open-source: It is and always will be.
+- Open-source
 
 ## Screenshots
 Default startup                            |  Kiwix Running
@@ -23,7 +23,7 @@ Default startup                            |  Kiwix Running
 
 ## Installation & Requirements
 - Please make sure you have macOS 11.3 or later installed on your machine.
-- Download the latest release from [here](https://github.com/mkathuri/kiwings/releases/download/1.0-beta1/Kiwings-1.0.dmg) (currently in beta).
+- Download the latest release from [here](https://github.com/mkathuri/kiwings/releases/download/1.0-beta2/Kiwings.1.0-beta2.dmg) (currently in beta).
 - Open the DMG file in Finder.
 - Drag and Drop the KiWings app into your Applications folder.
 
