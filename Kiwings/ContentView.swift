@@ -43,6 +43,25 @@ struct ContentView: View {
                     VStack(spacing: 0) {
                         MKContentTable(data: self.$kiwixLibs, selection: self.$kiwixLibsTableSelectedRows)
                             .frame(height: 100, alignment: .center)
+                            .onDrop(of: ["public.file-url"], isTargeted: nil) { providers -> Bool in
+                                for provider in providers {
+                                    provider.loadDataRepresentation(forTypeIdentifier: "public.file-url", completionHandler: { (data, error) in
+                                        if let data = data, let path = NSString(data: data, encoding: 4), let url = URL(string: path as String) {
+                                            if url.pathExtension.lowercased() == "zim" {
+                                                let x = self.kiwixLibs.map { $0.path }
+                                                self.kiwixLibs.append(contentsOf: [url].filter({
+                                                    !x.contains($0.absoluteURL.path)
+                                                }).map({
+                                                    let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
+                                                    print("Bookmark stored")
+                                                    return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: !startKiwix, bookmark: data)
+                                                }))
+                                            }
+                                        }
+                                    })
+                                }
+                                return true
+                            }
                         MKTableSegmentControl { control in
                             if control.isSelected(forSegment: 0) {
                                 let fpanel = NSOpenPanel()
