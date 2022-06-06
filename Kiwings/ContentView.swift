@@ -31,6 +31,7 @@ struct ContentView: View {
                         Spacer()
                         StepperField(placeholderText: "Port for server", value: $port, minValue: 0, maxValue: 65535)
                     }.padding(.top, 5)
+                    .disabled(startKiwix)
                     
                     VStack(spacing: 0) {
                         MKContentTable(data: self.$kiwixLibs, selection: self.$kiwixLibsTableSelectedRows)
@@ -58,7 +59,7 @@ struct ContentView: View {
                             }
                             NSApp.activate(ignoringOtherApps: true)
                         }
-                    }
+                    }.disabled(startKiwix)
                     
                     Toggle("", isOn: $startKiwix).onChange(of: startKiwix, perform: { value in
                         let logger = Logger()
