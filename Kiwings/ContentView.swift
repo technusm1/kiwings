@@ -30,6 +30,13 @@ struct ContentView: View {
                         Text("Port:").bold().padding(.trailing)
                         Spacer()
                         StepperField(placeholderText: "Port for server", value: $port, minValue: 0, maxValue: 65535)
+                            .padding(.trailing)
+                        Button {
+                            port = Int.random(in: 0...65535)
+                        } label: {
+                            Image(systemName: "shuffle.circle").resizable().frame(width: 24, height: 24, alignment: .center)
+                        }.buttonStyle(LinkButtonStyle()).help("Select a random port")
+
                     }.padding(.top, 5)
                     .disabled(startKiwix)
                     
@@ -46,7 +53,10 @@ struct ContentView: View {
                                 fpanel.allowedFileTypes = ["zim"]
                                 fpanel.begin { response in
                                     if response == .OK {
-                                        self.kiwixLibs.append(contentsOf: fpanel.urls.map({
+                                        let x = self.kiwixLibs.map { $0.path }
+                                        self.kiwixLibs.append(contentsOf: fpanel.urls.filter({
+                                            !x.contains($0.absoluteURL.path)
+                                        }).map({
                                             let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
                                             print("Bookmark stored")
                                             return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: true, bookmark: data)

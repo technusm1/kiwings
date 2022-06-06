@@ -62,6 +62,8 @@ struct MKContentTable: NSViewRepresentable {
         
         let col1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "isEnabled"))
         col1.title = "Enabled"
+        col1.minWidth = 20
+        col1.maxWidth = 60
         tableView.addTableColumn(col1)
         let col2 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "libFiles"))
         col2.title = "Library Files"
@@ -143,7 +145,7 @@ struct CheckmarkToggleStyle: ToggleStyle {
         ZStack {
             Rectangle()
                 .foregroundColor(.clear)
-                .background(configuration.isOn ? LinearGradient(gradient: Gradient(colors: [.red, .blue]), startPoint: .leading, endPoint: .trailing) : LinearGradient(gradient: Gradient(colors: [.gray]), startPoint: .leading, endPoint: .trailing))
+                .background(configuration.isOn ? LinearGradient(gradient: Gradient(colors: [.pink, .blue]), startPoint: .leading, endPoint: .trailing) : LinearGradient(gradient: Gradient(colors: [.gray]), startPoint: .leading, endPoint: .trailing))
                 .frame(width: 51*scaleFactor, height: 31*scaleFactor, alignment: .center)
                 .cornerRadius(20*scaleFactor)
             ZStack {
@@ -155,7 +157,7 @@ struct CheckmarkToggleStyle: ToggleStyle {
                     .aspectRatio(contentMode: .fit)
                     .font(Font.title.weight(.black))
                     .frame(width: 8*scaleFactor, height: 8*scaleFactor, alignment: .center)
-                    .foregroundColor(configuration.isOn ? .green : .gray)
+                    .foregroundColor(configuration.isOn ? .green : .black)
             }
             .offset(x: configuration.isOn ? 11*scaleFactor : -11*scaleFactor, y: 0)
         }

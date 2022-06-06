@@ -30,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         popover.contentViewController = NSViewController()
         popover.contentViewController?.view = NSHostingView(rootView: contentView)
         popover.contentViewController?.view.window?.makeKey()
+        
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         statusBarItem?.button?.image = NSImage(contentsOf: Bundle.main.urlForImageResource("AppIcon")!)
         statusBarItem?.button?.image?.size = NSSize(width: 24, height: 24)
