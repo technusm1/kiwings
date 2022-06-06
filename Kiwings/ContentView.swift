@@ -8,7 +8,6 @@
 import SwiftUI
 import LaunchAtLogin
 import os
-import UniformTypeIdentifiers
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
