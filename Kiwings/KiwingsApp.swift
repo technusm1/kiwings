@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LaunchAtLogin
 
 @main
 struct KiwingsApp: App {
@@ -37,6 +38,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusBarItem?.button?.imageScaling = .scaleProportionallyUpOrDown
         statusBarItem?.button?.imagePosition = .imageOverlaps
         statusBarItem?.button?.action = #selector(AppDelegate.togglePopover(_:))
+        
+        // Hate delays, but it works, FOR NOW.
+        if !LaunchAtLogin.wasLaunchedOnLogin {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.showPopover(nil)
+            }
+        }
     }
     
     @objc func showPopover(_ sender: AnyObject?) {
