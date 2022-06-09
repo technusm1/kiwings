@@ -100,7 +100,6 @@ struct MKContentTable: NSViewRepresentable {
         
         let col1 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "isEnabled"))
         col1.headerCell = CheckboxHeaderCell()
-//        col1.title = "Enabled"
         col1.maxWidth = 18
         tableView.addTableColumn(col1)
         let col2 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "libFiles"))
@@ -111,6 +110,7 @@ struct MKContentTable: NSViewRepresentable {
         tableView.delegate = context.coordinator
         tableView.dataSource = context.coordinator
         tableView.rowHeight = 18
+        
         let scrollView = NSScrollView()
         scrollView.documentView = tableView
         scrollView.borderType = .lineBorder
@@ -130,11 +130,6 @@ struct MKContentTable: NSViewRepresentable {
         return Coordinator(self)
     }
     
-}
-
-private extension NSUserInterfaceItemIdentifier {
-    // the checkbox column
-    static let columnChecked = NSUserInterfaceItemIdentifier("col-checked")
 }
 
 struct MKTableSegmentControl: NSViewRepresentable {
