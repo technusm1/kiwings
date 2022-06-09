@@ -118,7 +118,7 @@ struct ContentView: View {
                                     }
                                 }
                             } else if control.isSelected(forSegment: 1) {
-                                print("Remove \(kiwixLibsTableSelectedRows) from \(kiwixLibs)")
+                                NSLog("Remove \(kiwixLibsTableSelectedRows) from \(kiwixLibs)")
                                 self.kiwixLibs.remove(atOffsets: IndexSet(self.kiwixLibsTableSelectedRows))
                             }
                             NSApp.activate(ignoringOtherApps: true)
@@ -207,23 +207,18 @@ struct StatusBarContentView: View {
     }
 }
 
-
 struct BrowserListHorizontalStrip: View {
     var appURLs: [URL] = LSCopyApplicationURLsForURL(URL(string: "https:")! as CFURL, .viewer)?.takeRetainedValue() as? [URL] ?? []
-    
-    var appPaths: [String] {
-        appURLs.map({ Bundle(url: $0)?.bundlePath ?? "" })
-    }
     
     @Binding var port: Int
     
     var body: some View {
         HStack {
-            ForEach(0..<appURLs.count) { index in
+            ForEach(appURLs, id: \.self) { appURL in
                 Button(action: {
-                    NSWorkspace.shared.open([URL(string: "http://localhost:\(self.port)")!], withApplicationAt: appURLs[index], configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
+                    NSWorkspace.shared.open([URL(string: "http://localhost:\(self.port)")!], withApplicationAt: appURL, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
                 }, label: {
-                    Image(nsImage: NSWorkspace.shared.icon(forFile: appPaths[index])).resizable().frame(width: 32, height: 32, alignment: .center)
+                    Image(nsImage: NSWorkspace.shared.icon(forFile: Bundle(url: appURL)?.bundlePath ?? "")).resizable().frame(width: 32, height: 32, alignment: .center)
                 })
                 .buttonStyle(PlainButtonStyle())
             }
