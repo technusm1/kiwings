@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+// Code adopted from the following StackOverflow answer: https://stackoverflow.com/a/70191752/4385319
+struct MkLinkButtonStyle : ButtonStyle {
+    @Binding var isPressed : Bool
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .onChange(of: configuration.isPressed, perform: {newVal in
+                isPressed = newVal
+            })
+            .foregroundColor(.accentColor)
+    }
+}
+
 struct MKContentTable: NSViewRepresentable {
     @Binding var data: [KiwixLibraryFile]
     @Binding var selection: [Int]
@@ -33,7 +45,6 @@ struct MKContentTable: NSViewRepresentable {
         
         func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
             if tableColumn?.identifier.rawValue == "libFiles" {
-//                let textField = NSHostingView(rootView: Text("MK1-Nib"))
                 let x = NSTableCellView()
                 let textField = NSTextField(labelWithAttributedString: NSAttributedString(string: URL(fileURLWithPath: self.parent.data[row].path).absoluteURL.lastPathComponent, attributes: [.font : NSFont.systemFont(ofSize: 11, weight: .medium)]))
                 x.addSubview(textField)
@@ -103,7 +114,7 @@ struct MKContentTable: NSViewRepresentable {
         col1.maxWidth = 18
         tableView.addTableColumn(col1)
         let col2 = NSTableColumn(identifier: NSUserInterfaceItemIdentifier(rawValue: "libFiles"))
-        col2.title = "Library Files"
+        col2.title = NSLocalizedString("Library Files", comment: "Library Files")
         tableView.addTableColumn(col2)
         
         tableView.usesAlternatingRowBackgroundColors = true

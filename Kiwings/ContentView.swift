@@ -16,8 +16,10 @@ struct ContentView: View {
     @AppStorage("kiwixLibs") var kiwixLibs: [KiwixLibraryFile] = []
     
     @State var startKiwix: Bool = false
+    @State var isRandomPortBtnPressed: Bool = false
     @State var kiwixProcess: Process? = nil
     @State var kiwixLibsTableSelectedRows: [Int] = []
+    
     let bundledKiwixUrl = Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve")?.absoluteURL
     let fileManager = FileManager.default
     
@@ -69,8 +71,8 @@ struct ContentView: View {
                         Button {
                             port = Int.random(in: 0...65535)
                         } label: {
-                            Image(systemName: "shuffle.circle").resizable().frame(width: 24, height: 24, alignment: .center)
-                        }.buttonStyle(LinkButtonStyle()).help("Select a random port")
+                            Image(systemName: "shuffle.circle\(isRandomPortBtnPressed ? ".fill" : "")").resizable().frame(width: 24, height: 24, alignment: .center)
+                        }.buttonStyle(MkLinkButtonStyle(isPressed: $isRandomPortBtnPressed)).help("Select a random port")
 
                     }.padding(.top, 5)
                     .disabled(startKiwix)
@@ -177,7 +179,11 @@ struct TitleBarContentView: View {
         HStack(alignment: .center) {
             VStack(alignment: .leading) {
                 Text("KiWings").font(.headline)
-                Text("by Maheep Kumar Kathuria").font(.footnote)
+                if #available(macOS 12.0, *) {
+                    Text("by ***[Maheep Kumar Kathuria](https://maheepk.net)***").font(.footnote)
+                } else {
+                    Text("by Maheep Kumar Kathuria").font(.footnote)
+                }
             }.padding([.leading])
             Spacer()
             MenuButton(
@@ -190,7 +196,7 @@ struct TitleBarContentView: View {
                         NSRunningApplication.current.terminate()
                     })
                 }
-            ).menuButtonStyle(BorderlessPullDownMenuButtonStyle()).frame(width: 32, height: 32, alignment: .center).padding([.trailing])
+            ).menuButtonStyle(BorderlessPullDownMenuButtonStyle()).frame(width: 32, height: 32, alignment: .center).padding(.trailing, 8)
         }
     }
 }
