@@ -60,7 +60,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            TitleBarContentView()
+            TitleBarContentView().padding(.top, 10)
             VStack {
                 VStack {
                     HStack {
@@ -169,8 +169,9 @@ struct ContentView: View {
                 }
                 .padding(EdgeInsets(top: 4, leading: 8, bottom: 5, trailing: 8))
             }.background(colorScheme == .light ? Color.white : Color(NSColor.darkGray))
-            StatusBarContentView(startKiwix: $startKiwix)
-        }.padding(.vertical, 20)
+            StatusBarContentView(startKiwix: $startKiwix).padding(.bottom, 10)
+        }.frame(minWidth: 250, maxWidth: 300, maxHeight: 400).fixedSize()
+        // The frame().fixedSize() change was done after consulting this answer: https://stackoverflow.com/a/64836292/4385319
     }
 }
 
@@ -184,7 +185,7 @@ struct TitleBarContentView: View {
                 } else {
                     Text("by Maheep Kumar Kathuria").font(.footnote)
                 }
-            }.padding([.leading])
+            }.padding(.leading, 8)
             Spacer()
             MenuButton(
                 label: Label("Settings", systemImage: "gearshape.fill").labelStyle(IconOnlyLabelStyle()),
@@ -219,14 +220,18 @@ struct BrowserListHorizontalStrip: View {
     @Binding var port: Int
     
     var body: some View {
-        HStack {
-            ForEach(appURLs, id: \.self) { appURL in
-                Button(action: {
-                    NSWorkspace.shared.open([URL(string: "http://localhost:\(self.port)")!], withApplicationAt: appURL, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
-                }, label: {
-                    Image(nsImage: NSWorkspace.shared.icon(forFile: Bundle(url: appURL)?.bundlePath ?? "")).resizable().frame(width: 32, height: 32, alignment: .center)
-                })
-                .buttonStyle(PlainButtonStyle())
+        VStack {
+            ForEach(appURLs.chunked(into: 7), id: \.self) { appURLChunk in
+                HStack {
+                    ForEach(appURLChunk, id: \.self) { appURL in
+                        Button(action: {
+                            NSWorkspace.shared.open([URL(string: "http://localhost:\(self.port)")!], withApplicationAt: appURL, configuration: NSWorkspace.OpenConfiguration(), completionHandler: nil)
+                        }, label: {
+                            Image(nsImage: NSWorkspace.shared.icon(forFile: Bundle(url: appURL)?.bundlePath ?? "")).resizable().frame(width: 32, height: 32, alignment: .center)
+                        })
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
             }
         }
     }
