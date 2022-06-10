@@ -45,4 +45,4 @@ Before you raise an issue, please make sure to search the **Issues** section pro
 - Kiwix team's `kiwix-tools`. Source code is available here: https://github.com/kiwix/kiwix-tools
 - Sindre Sorhus's `LaunchAtLogin` package: https://github.com/sindresorhus/LaunchAtLogin
 - CheckboxHeaderCell gist here: https://gist.github.com/Lessica/176c2314336fc861398de1e1045aa368
-- Detecting button if button is pressed (read: pressed and held) in SwiftUI: https://stackoverflow.com/a/70191752/4385319
+- Detecting button press in SwiftUI: https://stackoverflow.com/a/70191752/4385319
