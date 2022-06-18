@@ -35,9 +35,6 @@ There are 3 simple steps:
 
 Easy, right?
 
-## Future plans
-I would love to host this app on the macOS App Store (and avail all the nice features like automatic updates), or maybe pass it on to the original Kiwix team.
-
 ## Giving feedback
 Before you raise an issue, please make sure to search the **Issues** section properly to see if there isn't any issue already filed for the problem you're facing. The other thing to know here is that I'm a busy person. So, it may not be possible for me to attend to your concerns in a timely manner. That said, your feedback is extremely valuable and appreciated.
 
