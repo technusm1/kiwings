@@ -36,7 +36,7 @@ There are 3 simple steps:
 Easy, right?
 
 ## Giving feedback
-Before you raise an issue, please make sure to search the **Issues** section properly to see if there isn't any issue already filed for the problem you're facing. The other thing to know here is that I'm a busy person. So, it may not be possible for me to attend to your concerns in a timely manner. That said, your feedback is extremely valuable and appreciated.
+Before you raise an issue, please make sure to search the **Issues** section properly to see if there isn't any issue already filed for the problem you're facing. Being a bit busy these days, it may not be possible for me to attend to your concerns in a timely manner. That said, your feedback is extremely valuable and appreciated. I may not be able to reply, but I do read in a timely manner.
 
 ## Credits
 - Kiwix team's `kiwix-tools`. Source code is available here: https://github.com/kiwix/kiwix-tools
