@@ -31,12 +31,12 @@ struct ContentView: View {
             var bookmarkDataIsStale: Bool = false
             if let url = try? URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale) {
                 if bookmarkDataIsStale {
-                    print("WARNING: stale security bookmark")
+                    NSLog("WARNING: stale security bookmark")
                     staleIndices.insert(libIndex)
                     continue
                 }
                 if !url.startAccessingSecurityScopedResource() {
-                    print("startAccessingSecurityScopedResource FAILED")
+                    NSLog("startAccessingSecurityScopedResource FAILED")
                 }
             } else {
                 staleIndices.insert(libIndex)
@@ -51,7 +51,7 @@ struct ContentView: View {
             var bookmarkDataIsStale: Bool = false
             let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
             if bookmarkDataIsStale {
-                print("WARNING: stale security bookmark")
+                NSLog("WARNING: stale security bookmark")
                 continue
             }
             url.stopAccessingSecurityScopedResource()
