@@ -217,11 +217,12 @@ struct StatusBarContentView: View {
 struct BrowserListHorizontalStrip: View {
     var appURLs: [URL] = {
         // Solved using the approach mentioned in this answer: https://stackoverflow.com/a/931277/4385319
-        let appBundleIdsForURLScheme: Set<String> = Set((LSCopyAllHandlersForURLScheme("https" as CFString)?.takeRetainedValue() as? [String])?.compactMap { $0 } ?? [])
+        let appBundleIdsForURLScheme: [String] = (LSCopyAllHandlersForURLScheme("https" as CFString)?.takeRetainedValue() as? [String])?.compactMap { $0 } ?? []
         let appBundleIdsForFileType: Set<String> = Set((LSCopyAllRoleHandlersForContentType("public.html" as CFString, .viewer)?.takeRetainedValue() as? [String])?.compactMap { $0 } ?? [])
-
-        let installedBrowserBundleIds = appBundleIdsForFileType.intersection(appBundleIdsForURLScheme)
-        return installedBrowserBundleIds.compactMap { bundleId in
+        let installedBrowserIds: [String] = appBundleIdsForURLScheme.compactMap { bundleId in
+            appBundleIdsForFileType.contains(bundleId) ? bundleId : nil
+        }
+        return installedBrowserIds.compactMap { bundleId in
             NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId)
         }
     }()
