@@ -23,7 +23,7 @@ Default startup                            |  Kiwix Running
 
 ## Installation & Requirements
 - Please make sure you have macOS 11.3 or later installed on your machine.
-- Download the latest release from [here](https://github.com/technusm1/kiwings/releases/download/1.0-beta3/Kiwings-1.0-beta3.dmg) (currently in beta).
+- Download the latest release from [here](https://github.com/technusm1/kiwings/releases/download/1.0-beta4/Kiwings.1.0-beta4.dmg) (currently in beta, but should be usable).
 - Open the DMG file in Finder.
 - Drag and Drop the KiWings app into your Applications folder.
 
