@@ -2,7 +2,7 @@
 
 | Field                                                                  | Info                                   |
 |------------------------------------------------------------------------|----------------------------------------|
-| Project Homepage | [github.com/technusm1/kiwings](github.com/technusm1/kiwings) |
+| Project Homepage | [github.com/technusm1/kiwings](https://github.com/technusm1/kiwings) |
 | Description | Lightweight Kiwix alternative for macOS |
 | Build status | ![Build status](https://github.com/mkathuri/kiwings/actions/workflows/main.yml/badge.svg) |
 | Download latest version | [1.0-beta4](https://github.com/technusm1/kiwings/releases/download/1.0-beta4/Kiwings.1.0-beta4.dmg) |
