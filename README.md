@@ -43,3 +43,4 @@ Before you raise an issue, please make sure to search the **Issues** section pro
 - Sindre Sorhus's `LaunchAtLogin` package: https://github.com/sindresorhus/LaunchAtLogin
 - CheckboxHeaderCell gist here: https://gist.github.com/Lessica/176c2314336fc861398de1e1045aa368
 - Detecting button press in SwiftUI: https://stackoverflow.com/a/70191752/4385319
+- Enumerating installed browsers on OSX: https://stackoverflow.com/a/931277/4385319
