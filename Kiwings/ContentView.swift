@@ -58,6 +58,17 @@ struct ContentView: View {
         }
     }
     
+    func appendToKiwixLibs(_ collection: [URL]) {
+        let kiwixLibPaths = self.kiwixLibs.map(\.path)
+        self.kiwixLibs.append(contentsOf: collection.filter({
+            !kiwixLibPaths.contains($0.absoluteURL.path)
+        }).map({
+            let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
+            NSLog("Bookmark stored")
+            return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: !startKiwix, bookmark: data)
+        }))
+    }
+    
     var body: some View {
         VStack {
             TitleBarContentView().padding(.top, 10)
@@ -85,14 +96,7 @@ struct ContentView: View {
                                     provider.loadDataRepresentation(forTypeIdentifier: "public.file-url", completionHandler: { (data, error) in
                                         if let data = data, let path = NSString(data: data, encoding: 4), let url = URL(string: path as String) {
                                             if url.pathExtension.lowercased() == "zim" {
-                                                let kiwixLibPaths = self.kiwixLibs.map { $0.path }
-                                                self.kiwixLibs.append(contentsOf: [url].filter({
-                                                    !kiwixLibPaths.contains($0.absoluteURL.path)
-                                                }).map({
-                                                    let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
-                                                    NSLog("Bookmark stored")
-                                                    return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: !startKiwix, bookmark: data)
-                                                }))
+                                                appendToKiwixLibs([url])
                                             }
                                         }
                                     })
@@ -109,14 +113,7 @@ struct ContentView: View {
                                 fpanel.allowedFileTypes = ["zim"]
                                 fpanel.begin { response in
                                     if response == .OK {
-                                        let x = self.kiwixLibs.map { $0.path }
-                                        self.kiwixLibs.append(contentsOf: fpanel.urls.filter({
-                                            !x.contains($0.absoluteURL.path)
-                                        }).map({
-                                            let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
-                                            NSLog("Bookmark stored")
-                                            return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: true, bookmark: data)
-                                        }))
+                                        appendToKiwixLibs(fpanel.urls)
                                     }
                                 }
                             } else if control.isSelected(forSegment: 1) {
