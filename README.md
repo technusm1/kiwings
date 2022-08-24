@@ -16,9 +16,9 @@ Under the hood, this tool is a front-end for `kiwix-serve` designed for macOS 11
 - Open-source
 
 ## Screenshots
-| Default startup                            |  Kiwix Running                          |
-|-----------------------------------------|------------------------------------------|
-| ![](https://github.com/technusm1/kiwings/blob/main/screenshots/Screenshot-Stopped.png)  |  ![](https://github.com/technusm1/kiwings/blob/main/screenshots/Screenshot-Running.png) |
+| Default startup                            | Kiwix Running                          |
+|--------------------------------------------|----------------------------------------|
+| ![Stopped](https://github.com/technusm1/kiwings/blob/main/screenshots/Screenshot-Stopped.png)  |  ![Running](https://github.com/technusm1/kiwings/blob/main/screenshots/Screenshot-Running.png) |
 
 
 ## Installation & Requirements
