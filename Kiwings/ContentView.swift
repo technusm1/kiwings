@@ -216,8 +216,8 @@ struct BrowserListHorizontalStrip: View {
         // Solved using the approach mentioned in this answer: https://stackoverflow.com/a/931277/4385319
         let appBundleIdsForURLScheme: [String] = (LSCopyAllHandlersForURLScheme("https" as CFString)?.takeRetainedValue() as? [String])?.compactMap { $0 } ?? []
         let appBundleIdsForFileType: Set<String> = Set((LSCopyAllRoleHandlersForContentType("public.html" as CFString, .viewer)?.takeRetainedValue() as? [String])?.compactMap { $0 } ?? [])
-        let installedBrowserIds: [String] = appBundleIdsForURLScheme.compactMap { bundleId in
-            appBundleIdsForFileType.contains(bundleId) ? bundleId : nil
+        let installedBrowserIds: [String] = appBundleIdsForURLScheme.filter { bundleId in
+            appBundleIdsForFileType.contains(bundleId)
         }
         return installedBrowserIds.compactMap { bundleId in
             NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleId)
