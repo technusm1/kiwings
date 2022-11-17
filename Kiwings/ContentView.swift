@@ -12,62 +12,13 @@ import os
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @AppStorage("port") var port: Int = 80
-    @AppStorage("kiwixLibs") var kiwixLibs: [KiwixLibraryFile] = []
+    @StateObject var appState: AppState = AppState.shared
     
-    @State var startKiwix: Bool = false
     @State var isRandomPortBtnPressed: Bool = false
-    @State var kiwixProcess: Process? = nil
     @State var kiwixLibsTableSelectedRows: [Int] = []
     
     let bundledKiwixUrl = Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve")?.absoluteURL
     let fileManager = FileManager.default
-    
-    func unlockAccessToKiwixLibs() {
-        // Enable access to all bookmarked kiwix libraries before execution
-        var staleIndices: IndexSet = []
-        for libIndex in 0..<kiwixLibs.count {
-            let bookmark = kiwixLibs[libIndex].bookmark
-            var bookmarkDataIsStale: Bool = false
-            if let url = try? URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale) {
-                if bookmarkDataIsStale {
-                    NSLog("WARNING: stale security bookmark")
-                    staleIndices.insert(libIndex)
-                    continue
-                }
-                if !url.startAccessingSecurityScopedResource() {
-                    NSLog("startAccessingSecurityScopedResource FAILED")
-                }
-            } else {
-                staleIndices.insert(libIndex)
-            }
-        }
-        kiwixLibs.remove(atOffsets: staleIndices)
-    }
-    
-    func disableAccessToKiwixLibs() {
-        for lib in kiwixLibs {
-            let bookmark = lib.bookmark
-            var bookmarkDataIsStale: Bool = false
-            let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
-            if bookmarkDataIsStale {
-                NSLog("WARNING: stale security bookmark")
-                continue
-            }
-            url.stopAccessingSecurityScopedResource()
-        }
-    }
-    
-    func appendToKiwixLibs(_ collection: [URL]) {
-        let kiwixLibPaths = self.kiwixLibs.map(\.path)
-        self.kiwixLibs.append(contentsOf: collection.filter({
-            !kiwixLibPaths.contains($0.absoluteURL.path)
-        }).map({
-            let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
-            NSLog("Bookmark stored")
-            return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: !startKiwix, bookmark: data)
-        }))
-    }
     
     var body: some View {
         VStack {
@@ -77,26 +28,26 @@ struct ContentView: View {
                     HStack {
                         Text("Port:").bold().padding(.trailing)
                         Spacer()
-                        StepperField(placeholderText: "Port for server", value: $port, minValue: 0, maxValue: 65535)
+                        StepperField(placeholderText: "Port for server", value: $appState.port, minValue: 0, maxValue: 65535)
                             .padding(.trailing)
                         Button {
-                            port = Int.random(in: 0...65535)
+                            appState.port = Int.random(in: 0...65535)
                         } label: {
                             Image(systemName: "shuffle.circle\(isRandomPortBtnPressed ? ".fill" : "")").resizable().frame(width: 24, height: 24, alignment: .center)
                         }.buttonStyle(MkLinkButtonStyle(isPressed: $isRandomPortBtnPressed)).help("Select a random port")
 
                     }.padding(.top, 5)
-                    .disabled(startKiwix)
+                    .disabled(appState.kiwixProcess != nil)
                     
                     VStack(spacing: 0) {
-                        MKContentTable(data: self.$kiwixLibs, selection: self.$kiwixLibsTableSelectedRows)
+                        MKContentTable(data: appState.$kiwixLibs, selection: self.$kiwixLibsTableSelectedRows)
                             .frame(height: 100, alignment: .center)
                             .onDrop(of: ["public.file-url"], isTargeted: nil) { providers -> Bool in
                                 for provider in providers {
                                     provider.loadDataRepresentation(forTypeIdentifier: "public.file-url", completionHandler: { (data, error) in
                                         if let data = data, let path = NSString(data: data, encoding: 4), let url = URL(string: path as String) {
                                             if url.pathExtension.lowercased() == "zim" {
-                                                appendToKiwixLibs([url])
+                                                appState.appendToKiwixLibs([url])
                                             }
                                         }
                                     })
@@ -113,60 +64,36 @@ struct ContentView: View {
                                 fpanel.allowedFileTypes = ["zim"]
                                 fpanel.begin { response in
                                     if response == .OK {
-                                        appendToKiwixLibs(fpanel.urls)
+                                        appState.appendToKiwixLibs(fpanel.urls)
                                     }
                                 }
                             } else if control.isSelected(forSegment: 1) {
-                                NSLog("Remove \(kiwixLibsTableSelectedRows) from \(kiwixLibs)")
-                                self.kiwixLibs.remove(atOffsets: IndexSet(self.kiwixLibsTableSelectedRows))
+                                NSLog("Remove \(kiwixLibsTableSelectedRows) from \(appState.kiwixLibs)")
+                                appState.kiwixLibs.remove(atOffsets: IndexSet(self.kiwixLibsTableSelectedRows))
                             }
                             NSApp.activate(ignoringOtherApps: true)
                         }
-                    }.disabled(startKiwix)
+                    }.disabled(appState.kiwixProcess != nil)
                     
-                    Toggle("", isOn: $startKiwix).onChange(of: startKiwix, perform: { value in
+                    Toggle("", isOn: Binding(get: {
+                        appState.kiwixProcess != nil
+                    }, set: { val in
                         let logger = Logger()
-                        if value {
-                            // If toggle is switched on, start kiwix-serve
-                            logger.info("Preparing kiwix-serve for execution")
-                            unlockAccessToKiwixLibs()
-                            let kiwixLibsToUse = kiwixLibs.filter({ $0.isEnabled }).map({ $0.path })
-                            if !kiwixLibsToUse.isEmpty {
-                                self.kiwixProcess = Process()
-                                self.kiwixProcess?.arguments = ["-a", "\(ProcessInfo().processIdentifier)","-p", "\(port)"]
-                                self.kiwixProcess?.arguments?.append(contentsOf: kiwixLibsToUse)
-                                self.kiwixProcess?.executableURL = Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve")?.absoluteURL
-                                do {
-                                    logger.info("Trying to execute command: kiwix-serve")
-                                    let programArgs: [String] = (self.kiwixProcess?.arguments) ?? ["Invalid ARGS"]
-                                    logger.info("Program arguments: \(programArgs)")
-                                    try self.kiwixProcess?.run()
-                                } catch {
-                                    logger.error("Unable to launch kiwix-serve. The following error occured: \(error.localizedDescription)")
-                                    disableAccessToKiwixLibs()
-                                    logger.error("Stopped resource access due to exception")
-                                    self.startKiwix = false
-                                    self.kiwixProcess = nil
-                                }
-                            } else {
-                                logger.warning("No kiwix libraries found. Cannot start kiwix-serve")
-                                self.startKiwix = false
-                                self.kiwixProcess = nil
-                            }
+                        if val {
+                            appState.launchKiwixServer()
                         } else {
-                            logger.info("Stopping kiwix-serve")
-                            self.kiwixProcess?.terminate()
-                            self.kiwixProcess = nil
-                            disableAccessToKiwixLibs()
-                            logger.info("kiwix-serve terminated, stopped security-scoped resource access")
+                            appState.kiwixProcess?.terminate()
+                            appState.disableAccessToKiwixLibs()
+                            appState.kiwixProcess = nil
                         }
-                    }).toggleStyle(CheckmarkToggleStyle(scaleFactor: 2))
-                    BrowserListHorizontalStrip(port: $port)
-                    .disabled(!startKiwix)
+                    }))
+                    .toggleStyle(CheckmarkToggleStyle(scaleFactor: 2))
+                    BrowserListHorizontalStrip(port: $appState.port)
+                        .disabled(appState.kiwixProcess == nil)
                 }
                 .padding(EdgeInsets(top: 4, leading: 8, bottom: 5, trailing: 8))
             }.background(colorScheme == .light ? Color.white : Color(NSColor.darkGray))
-            StatusBarContentView(startKiwix: $startKiwix).padding(.bottom, 10)
+            StatusBarContentView(startKiwix: appState.kiwixProcess != nil).padding(.bottom, 10)
         }.frame(minWidth: 250, maxWidth: 300, maxHeight: 400).fixedSize()
         // The frame().fixedSize() change was done after consulting this answer: https://stackoverflow.com/a/64836292/4385319
     }
@@ -200,7 +127,7 @@ struct TitleBarContentView: View {
 }
 
 struct StatusBarContentView: View {
-    @Binding var startKiwix: Bool
+    var startKiwix: Bool
     
     var body: some View {
         HStack {
@@ -237,6 +164,7 @@ struct BrowserListHorizontalStrip: View {
                             Image(nsImage: NSWorkspace.shared.icon(forFile: Bundle(url: appURL)?.bundlePath ?? "")).resizable().frame(width: 32, height: 32, alignment: .center)
                         })
                         .buttonStyle(PlainButtonStyle())
+                        .shadow(radius: 1.1)
                     }
                 }
             }
