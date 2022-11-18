@@ -37,7 +37,7 @@ struct ContentView: View {
                         }.buttonStyle(MkLinkButtonStyle(isPressed: $isRandomPortBtnPressed)).help("Select a random port")
 
                     }.padding(.top, 5)
-                    .disabled(appState.kiwixProcess != nil)
+                    .disabled(appState.isKiwixActive)
                     
                     VStack(spacing: 0) {
                         MKContentTable(data: appState.$kiwixLibs, selection: self.$kiwixLibsTableSelectedRows)
@@ -73,27 +73,24 @@ struct ContentView: View {
                             }
                             NSApp.activate(ignoringOtherApps: true)
                         }
-                    }.disabled(appState.kiwixProcess != nil)
+                    }.disabled(appState.isKiwixActive)
                     
                     Toggle("", isOn: Binding(get: {
-                        appState.kiwixProcess != nil
+                        appState.isKiwixActive
                     }, set: { val in
-                        let logger = Logger()
                         if val {
                             appState.launchKiwixServer()
                         } else {
-                            appState.kiwixProcess?.terminate()
-                            appState.disableAccessToKiwixLibs()
-                            appState.kiwixProcess = nil
+                            appState.terminateKiwixServer()
                         }
                     }))
                     .toggleStyle(CheckmarkToggleStyle(scaleFactor: 2))
                     BrowserListHorizontalStrip(port: $appState.port)
-                        .disabled(appState.kiwixProcess == nil)
+                        .disabled(!appState.isKiwixActive)
                 }
                 .padding(EdgeInsets(top: 4, leading: 8, bottom: 5, trailing: 8))
             }.background(colorScheme == .light ? Color.white : Color(NSColor.darkGray))
-            StatusBarContentView(startKiwix: appState.kiwixProcess != nil).padding(.bottom, 10)
+            StatusBarContentView(startKiwix: appState.isKiwixActive).padding(.bottom, 10)
         }.frame(minWidth: 250, maxWidth: 300, maxHeight: 400).fixedSize()
         // The frame().fixedSize() change was done after consulting this answer: https://stackoverflow.com/a/64836292/4385319
     }

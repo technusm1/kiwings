@@ -18,6 +18,18 @@ class AppState: ObservableObject {
     
     @Published var kiwixProcess: Process? = nil
     
+    var isKiwixActive: Bool {
+        kiwixProcess != nil && kiwixProcess!.isRunning
+    }
+    
+    @objc func didterminatenotificationReceived() {
+        logger.info("Termination notification received")
+        NotificationCenter.default.removeObserver(self)
+        withAnimation(.linear(duration: 0.1)) {
+            kiwixProcess = nil
+        }
+    }
+    
     func unlockAccessToKiwixLibs() {
         // Enable access to all bookmarked kiwix libraries before execution
         var staleIndices: IndexSet = []
@@ -60,7 +72,7 @@ class AppState: ObservableObject {
         }).map({
             let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
             NSLog("Bookmark stored")
-            return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: (kiwixProcess == nil), bookmark: data)
+            return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: !isKiwixActive, bookmark: data)
         }))
     }
     
@@ -79,17 +91,21 @@ class AppState: ObservableObject {
                 let programArgs: [String] = (self.kiwixProcess?.arguments) ?? ["Invalid ARGS"]
                 logger.info("Program arguments: \(programArgs)")
                 try self.kiwixProcess?.run()
+                NotificationCenter.default.addObserver(self, selector: #selector(didterminatenotificationReceived), name: Process.didTerminateNotification, object: nil)
             } catch {
                 logger.error("Unable to launch kiwix-serve. The following error occured: \(error.localizedDescription)")
-                disableAccessToKiwixLibs()
                 logger.error("Stopped resource access due to exception")
-                self.kiwixProcess = nil
+                terminateKiwixServer()
             }
         } else {
             logger.warning("No kiwix libraries found. Cannot start kiwix-serve")
-            disableAccessToKiwixLibs()
-            self.kiwixProcess?.terminate()
-            self.kiwixProcess = nil
+            terminateKiwixServer()
         }
+    }
+    
+    func terminateKiwixServer() {
+        logger.info("Terminating kiwix-serve")
+        disableAccessToKiwixLibs()
+        self.kiwixProcess?.terminate()
     }
 }
