@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C030E092927D5B30022F5ED /* TitleBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C030E082927D5B30022F5ED /* TitleBarView.swift */; };
+		4C030E0B2927D63D0022F5ED /* BrowserListHorizontalStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C030E0A2927D63D0022F5ED /* BrowserListHorizontalStripView.swift */; };
 		4C183A2A284E3A2A00F9AD76 /* CheckboxHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C183A29284E3A2A00F9AD76 /* CheckboxHeaderCell.swift */; };
 		4C4B46F0267B710A007F7CD7 /* kiwix-serve in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C4B46EC267B710A007F7CD7 /* kiwix-serve */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4C6F15E52679BEE000AEF6D3 /* KiwingsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */; };
@@ -34,6 +36,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4C030E082927D5B30022F5ED /* TitleBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleBarView.swift; sourceTree = "<group>"; };
+		4C030E0A2927D63D0022F5ED /* BrowserListHorizontalStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserListHorizontalStripView.swift; sourceTree = "<group>"; };
 		4C183A29284E3A2A00F9AD76 /* CheckboxHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckboxHeaderCell.swift; sourceTree = "<group>"; };
 		4C4B46EC267B710A007F7CD7 /* kiwix-serve */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = "kiwix-serve"; sourceTree = "<group>"; };
 		4C6F15E12679BEE000AEF6D3 /* Kiwings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kiwings.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +65,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C030E072927D58F0022F5ED /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4C030E082927D5B30022F5ED /* TitleBarView.swift */,
+				4C030E0A2927D63D0022F5ED /* BrowserListHorizontalStripView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		4C6F15D82679BEE000AEF6D3 = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +94,7 @@
 		4C6F15E32679BEE000AEF6D3 /* Kiwings */ = {
 			isa = PBXGroup;
 			children = (
+				4C030E072927D58F0022F5ED /* Views */,
 				4C6F15E42679BEE000AEF6D3 /* KiwingsApp.swift */,
 				4C6F15E62679BEE000AEF6D3 /* ContentView.swift */,
 				4C6F15E82679BEE100AEF6D3 /* Assets.xcassets */,
@@ -136,7 +150,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					4C6F15E02679BEE000AEF6D3 = {
 						CreatedOnToolsVersion = 12.5;
@@ -206,9 +220,11 @@
 				4CE7442926808F80006B8DEB /* DataTypes.swift in Sources */,
 				4CE9A3512926229000F5A6A2 /* AppState.swift in Sources */,
 				4CE7442B26808FF6006B8DEB /* CustomControls.swift in Sources */,
+				4C030E0B2927D63D0022F5ED /* BrowserListHorizontalStripView.swift in Sources */,
 				4C6F15E72679BEE000AEF6D3 /* ContentView.swift in Sources */,
 				4C6F15E52679BEE000AEF6D3 /* KiwingsApp.swift in Sources */,
 				4C183A2A284E3A2A00F9AD76 /* CheckboxHeaderCell.swift in Sources */,
+				4C030E092927D5B30022F5ED /* TitleBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +265,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -311,6 +328,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -342,6 +360,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Kiwings/Preview Content\"";
 				DEVELOPMENT_TEAM = Z53A52TZJF;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -367,6 +386,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"Kiwings/Preview Content\"";
 				DEVELOPMENT_TEAM = Z53A52TZJF;
 				ENABLE_HARDENED_RUNTIME = YES;

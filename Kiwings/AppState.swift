@@ -8,7 +8,7 @@
 import SwiftUI
 import os
 
-class AppState: ObservableObject {
+final class AppState: ObservableObject {
     var logger: Logger = Logger()
     static var shared: AppState = {
         return AppState()
@@ -80,7 +80,7 @@ class AppState: ObservableObject {
         // If toggle is switched on, start kiwix-serve
         logger.info("Preparing kiwix-serve for execution")
         unlockAccessToKiwixLibs()
-        let kiwixLibsToUse = kiwixLibs.filter({ $0.isEnabled }).map({ $0.path })
+        let kiwixLibsToUse = kiwixLibs.filter(\.isEnabled).map(\.path)
         if !kiwixLibsToUse.isEmpty {
             self.kiwixProcess = Process()
             self.kiwixProcess?.arguments = ["-a", "\(ProcessInfo().processIdentifier)","-p", "\(port)"]
