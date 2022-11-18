@@ -81,6 +81,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if NSEvent.modifierFlags.contains(NSEvent.ModifierFlags.option) {
             if !AppState.shared.isKiwixActive {
                 AppState.shared.launchKiwixServer()
+            } else {
+                AppState.shared.terminateKiwixServer()
             }
         } else {
             if popover.isShown {
