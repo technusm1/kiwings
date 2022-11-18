@@ -19,6 +19,7 @@ struct ContentView: View {
     
     let bundledKiwixUrl = Bundle.main.url(forAuxiliaryExecutable: "kiwix-serve")?.absoluteURL
     let fileManager = FileManager.default
+    let logger = Logger()
     
     var body: some View {
         VStack {
@@ -68,7 +69,7 @@ struct ContentView: View {
                                     }
                                 }
                             } else if control.isSelected(forSegment: 1) {
-                                NSLog("Remove \(kiwixLibsTableSelectedRows) from \(appState.kiwixLibs)")
+                                logger.info("Remove \(kiwixLibsTableSelectedRows) from \(appState.kiwixLibs)")
                                 appState.kiwixLibs.remove(atOffsets: IndexSet(self.kiwixLibsTableSelectedRows))
                             }
                             NSApp.activate(ignoringOtherApps: true)

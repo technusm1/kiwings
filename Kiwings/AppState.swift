@@ -38,12 +38,12 @@ class AppState: ObservableObject {
             var bookmarkDataIsStale: Bool = false
             if let url = try? URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale) {
                 if bookmarkDataIsStale {
-                    NSLog("WARNING: stale security bookmark")
+                    logger.warning("Stale security bookmark")
                     staleIndices.insert(libIndex)
                     continue
                 }
                 if !url.startAccessingSecurityScopedResource() {
-                    NSLog("startAccessingSecurityScopedResource FAILED")
+                    logger.warning("startAccessingSecurityScopedResource FAILED")
                 }
             } else {
                 staleIndices.insert(libIndex)
@@ -58,7 +58,7 @@ class AppState: ObservableObject {
             var bookmarkDataIsStale: Bool = false
             let url = try! URL(resolvingBookmarkData: bookmark, options: .withSecurityScope, relativeTo: nil, bookmarkDataIsStale: &bookmarkDataIsStale)
             if bookmarkDataIsStale {
-                NSLog("WARNING: stale security bookmark")
+                logger.warning("Stale security bookmark")
                 continue
             }
             url.stopAccessingSecurityScopedResource()
@@ -71,7 +71,7 @@ class AppState: ObservableObject {
             !kiwixLibPaths.contains($0.absoluteURL.path)
         }).map({
             let data = try! $0.bookmarkData(options: .securityScopeAllowOnlyReadAccess, includingResourceValuesForKeys: nil, relativeTo: nil)
-            NSLog("Bookmark stored")
+            logger.info("Bookmark stored")
             return KiwixLibraryFile(path: $0.absoluteURL.path, isEnabled: !isKiwixActive, bookmark: data)
         }))
     }
@@ -93,12 +93,11 @@ class AppState: ObservableObject {
                 try self.kiwixProcess?.run()
                 NotificationCenter.default.addObserver(self, selector: #selector(didterminatenotificationReceived), name: Process.didTerminateNotification, object: nil)
             } catch {
-                logger.error("Unable to launch kiwix-serve. The following error occured: \(error.localizedDescription)")
-                logger.error("Stopped resource access due to exception")
+                logger.error("Unable to launch kiwix-serve. The following error occured: \(error.localizedDescription). Stopped resource access due to exception")
                 terminateKiwixServer()
             }
         } else {
-            logger.warning("No kiwix libraries found. Cannot start kiwix-serve")
+            logger.error("No kiwix libraries found. Cannot start kiwix-serve")
             terminateKiwixServer()
         }
     }
