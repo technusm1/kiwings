@@ -79,7 +79,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     @objc func togglePopover(_ sender: AnyObject?) {
         if NSEvent.modifierFlags.contains(NSEvent.ModifierFlags.option) {
-            AppState.shared.launchKiwixServer()
+            if !AppState.shared.isKiwixActive {
+                AppState.shared.launchKiwixServer()
+            }
         } else {
             if popover.isShown {
                 closePopover(sender)
