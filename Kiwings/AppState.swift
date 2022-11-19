@@ -28,6 +28,7 @@ final class AppState: ObservableObject {
         withAnimation(.linear(duration: 0.1)) {
             kiwixProcess = nil
         }
+        AppDelegate.instance.statusBarItem?.button?.image = NSImage(systemSymbolName: "antenna.radiowaves.left.and.right.slash", accessibilityDescription: "KiWings Inactive")
     }
     
     func unlockAccessToKiwixLibs() {
@@ -92,6 +93,7 @@ final class AppState: ObservableObject {
                 logger.info("Program arguments: \(programArgs)")
                 try self.kiwixProcess?.run()
                 NotificationCenter.default.addObserver(self, selector: #selector(didterminatenotificationReceived), name: Process.didTerminateNotification, object: nil)
+                AppDelegate.instance.statusBarItem?.button?.image = NSImage(systemSymbolName: "antenna.radiowaves.left.and.right", accessibilityDescription: "KiWings Active")
             } catch {
                 logger.error("Unable to launch kiwix-serve. The following error occured: \(error.localizedDescription). Stopped resource access due to exception")
                 terminateKiwixServer()

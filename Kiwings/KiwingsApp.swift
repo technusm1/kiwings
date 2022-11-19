@@ -19,11 +19,13 @@ struct KiwingsApp: App {
 }
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    static private(set) var instance: AppDelegate! = nil
     var popover = NSPopover.init()
     var statusBarItem: NSStatusItem?
     let invisibleWindow: NSWindow = NSWindow(contentRect: NSMakeRect(0, 0, 10, 5), styleMask: .borderless, backing: .buffered, defer: false)
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        AppDelegate.instance = self
         let contentView = ContentView()
 
         // Set the SwiftUI's ContentView to the Popover's ContentViewController
@@ -35,9 +37,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         
         statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         statusBarItem?.button?.image = NSImage(contentsOf: Bundle.main.urlForImageResource("AppIcon")!)
-        statusBarItem?.button?.image?.size = NSSize(width: 24, height: 24)
+//        statusBarItem?.button?.image = NSImage(systemSymbolName: "antenna.radiowaves.left.and.right.slash", accessibilityDescription: "KiWings Inactive")
         statusBarItem?.button?.imageScaling = .scaleProportionallyUpOrDown
-        statusBarItem?.button?.imagePosition = .imageOverlaps
+        statusBarItem?.button?.imagePosition = .imageOnly
         statusBarItem?.button?.action = #selector(AppDelegate.togglePopover(_:))
         
         // Hate delays, but it works, FOR NOW.
@@ -46,6 +48,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self.showPopover(nil)
             }
         }
+    }
+    
+    func applicationWillTerminate(_ aNotification: Notification) {
+        AppState.shared.disableAccessToKiwixLibs()
     }
     
     @objc func showPopover(_ sender: AnyObject?) {
