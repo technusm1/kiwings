@@ -11,8 +11,11 @@ import os
 final class AppState: ObservableObject {
     var logger: Logger = Logger()
     static var shared: AppState = {
-        return AppState()
+        let x = AppState()
+        NotificationCenter.default.addObserver(x, selector: #selector(didterminatenotificationReceived), name: Process.didTerminateNotification, object: nil)
+        return x
     }()
+    
     @AppStorage("kiwixLibs") var kiwixLibs: [KiwixLibraryFile] = []
     @AppStorage("port") var port: Int = 80
     
@@ -24,7 +27,6 @@ final class AppState: ObservableObject {
     
     @objc func didterminatenotificationReceived() {
         logger.info("Termination notification received")
-        NotificationCenter.default.removeObserver(self)
         withAnimation(.linear(duration: 0.1)) {
             kiwixProcess = nil
         }
@@ -92,7 +94,6 @@ final class AppState: ObservableObject {
                 let programArgs: [String] = (self.kiwixProcess?.arguments) ?? ["Invalid ARGS"]
                 logger.info("Program arguments: \(programArgs)")
                 try self.kiwixProcess?.run()
-                NotificationCenter.default.addObserver(self, selector: #selector(didterminatenotificationReceived), name: Process.didTerminateNotification, object: nil)
                 AppDelegate.instance.statusBarItem?.button?.image = NSImage(systemSymbolName: "antenna.radiowaves.left.and.right", accessibilityDescription: "KiWings Active")
             } catch {
                 logger.error("Unable to launch kiwix-serve. The following error occured: \(error.localizedDescription). Stopped resource access due to exception")

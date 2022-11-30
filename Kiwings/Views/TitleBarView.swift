@@ -27,6 +27,8 @@ struct TitleBarView: View {
                         Text("Launch at login")
                     }
                     Button("Exit", action: {
+                        AppState.shared.terminateKiwixServer()
+                        NotificationCenter.default.removeObserver(AppState.shared)
                         NSRunningApplication.current.terminate()
                     })
                 }

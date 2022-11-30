@@ -51,7 +51,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationWillTerminate(_ aNotification: Notification) {
-        AppState.shared.disableAccessToKiwixLibs()
+        AppState.shared.terminateKiwixServer()
+        NotificationCenter.default.removeObserver(AppState.shared)
     }
     
     @objc func showPopover(_ sender: AnyObject?) {
