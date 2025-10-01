@@ -166,6 +166,14 @@ struct MKTableSegmentControl: NSViewRepresentable {
         control.setWidth(32, forSegment: 1)
         control.setEnabled(false, forSegment: 2)
         control.segmentStyle = .smallSquare
+
+        // Remove corner radius to match table's sharp edges
+        if let cell = control.cell as? NSSegmentedCell {
+            cell.trackingMode = .momentary
+        }
+        control.wantsLayer = true
+        control.layer?.cornerRadius = 0
+
         return control
     }
     
@@ -189,18 +197,16 @@ struct MKTableSegmentControl: NSViewRepresentable {
 
 struct CheckmarkToggleStyle: ToggleStyle {
     var scaleFactor: CGFloat
-    
+
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
             Rectangle()
                 .foregroundColor(.clear)
                 .background(configuration.isOn ? LinearGradient(gradient: Gradient(colors: [.pink, .blue]), startPoint: .leading, endPoint: .trailing) : LinearGradient(gradient: Gradient(colors: [.gray]), startPoint: .leading, endPoint: .trailing))
-                .frame(width: 51*scaleFactor, height: 31*scaleFactor, alignment: .center)
                 .cornerRadius(20*scaleFactor)
             ZStack {
                 Circle()
                     .foregroundColor(.white)
-                    .padding(.all, 3*scaleFactor)
                 Image(systemName: configuration.isOn ? "checkmark" : "xmark")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -208,14 +214,16 @@ struct CheckmarkToggleStyle: ToggleStyle {
                     .frame(width: 8*scaleFactor, height: 8*scaleFactor, alignment: .center)
                     .foregroundColor(configuration.isOn ? .green : .black)
             }
+            .frame(width: 25*scaleFactor, height: 25*scaleFactor)
             .offset(x: configuration.isOn ? 11*scaleFactor : -11*scaleFactor, y: 0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: configuration.isOn)
         }
+        .frame(width: 51*scaleFactor, height: 31*scaleFactor)
+        .fixedSize()
         .cornerRadius(20*scaleFactor)
         .padding(EdgeInsets(top: 2, leading: 0, bottom: 0, trailing: 0))
         .onTapGesture {
-            withAnimation(.linear(duration: 0.1)) {
-                configuration.isOn.toggle()
-            }
+            configuration.isOn.toggle()
         }
     }
 }

@@ -30,7 +30,9 @@ final class AppState: ObservableObject {
         withAnimation(.linear(duration: 0.1)) {
             kiwixProcess = nil
         }
-        AppDelegate.instance.statusBarItem?.button?.image = NSImage(systemSymbolName: "antenna.radiowaves.left.and.right.slash", accessibilityDescription: "KiWings Inactive")
+        let icon = NSImage(named: "MenuBarIconDimmed")
+        icon?.isTemplate = true
+        AppDelegate.instance.statusBarItem?.button?.image = icon
     }
     
     func unlockAccessToKiwixLibs() {
@@ -94,7 +96,9 @@ final class AppState: ObservableObject {
                 let programArgs: [String] = (self.kiwixProcess?.arguments) ?? ["Invalid ARGS"]
                 logger.info("Program arguments: \(programArgs)")
                 try self.kiwixProcess?.run()
-                AppDelegate.instance.statusBarItem?.button?.image = NSImage(systemSymbolName: "antenna.radiowaves.left.and.right", accessibilityDescription: "KiWings Active")
+                let icon = NSImage(named: "MenuBarIcon")
+                icon?.isTemplate = true
+                AppDelegate.instance.statusBarItem?.button?.image = icon
             } catch {
                 logger.error("Unable to launch kiwix-serve. The following error occured: \(error.localizedDescription). Stopped resource access due to exception")
                 terminateKiwixServer()

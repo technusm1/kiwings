@@ -11,14 +11,16 @@ import LaunchAtLogin
 struct TitleBarView: View {
     var body: some View {
         HStack(alignment: .center) {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text("KiWings").font(.headline)
                 if #available(macOS 12.0, *) {
                     Text("by ***[Maheep Kumar Kathuria](https://maheepk.net)***").font(.footnote)
                 } else {
                     Text("by Maheep Kumar Kathuria").font(.footnote)
                 }
-            }.padding(.leading, 8)
+            }
+            .padding(.leading, 8)
+            .padding(.vertical, 8)
             Spacer()
             MenuButton(
                 label: Label("Settings", systemImage: "gearshape.fill").labelStyle(IconOnlyLabelStyle()),

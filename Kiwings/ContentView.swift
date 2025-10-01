@@ -12,7 +12,7 @@ import os
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     
-    @StateObject var appState: AppState = AppState.shared
+    @ObservedObject var appState: AppState = AppState.shared
     
     @State var isRandomPortBtnPressed: Bool = false
     @State var kiwixLibsTableSelectedRows: [Int] = []
@@ -22,9 +22,9 @@ struct ContentView: View {
     let logger = Logger()
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             TitleBarView()
-                .padding(.top, 10)
+            Spacer().frame(height: 8)
             VStack {
                 VStack {
                     HStack {
@@ -92,21 +92,26 @@ struct ContentView: View {
                 }
                 .padding(EdgeInsets(top: 4, leading: 8, bottom: 5, trailing: 8))
             }.background(colorScheme == .light ? Color.white : Color(NSColor.darkGray))
-            StatusBarContentView(startKiwix: appState.isKiwixActive).padding(.bottom, 10)
-        }.frame(minWidth: 250, maxWidth: 300, maxHeight: 400).fixedSize()
-        // The frame().fixedSize() change was done after consulting this answer: https://stackoverflow.com/a/64836292/4385319
+            Spacer().frame(height: 8)
+            StatusBarContentView(startKiwix: appState.isKiwixActive)
+        }
+        .frame(width: 280, height: 380)
+        .background(Color.clear)
+        // Fixed size for popover context - prevents layout issues
     }
 }
 
 struct StatusBarContentView: View {
     var startKiwix: Bool
-    
+
     var body: some View {
-        HStack {
+        HStack(alignment: .center, spacing: 8) {
             Text("Status:").font(.headline)
             Text(startKiwix ? "Running" : "Stopped")
                 .font(.headline).fontWeight(.semibold).foregroundColor(startKiwix ? .green : .red)
         }
+        .frame(maxWidth: .infinity, alignment: .center)
+        .frame(height: 32, alignment: .center)
     }
 }
 
