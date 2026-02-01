@@ -1,3 +1,9 @@
+> ⚠️ **Archived — Please switch to the official Kiwix app**
+> 
+> This repository is being archived. KiWings was originally intended as a temporary solution because the Kiwix macOS app did not offer sufficient features at the time. The official Kiwix app for macOS has since improved and now provides better features. Users are advised to switch to the official Kiwix app: http://apple.kiwix.org/
+> 
+> This repository is no longer maintained.
+
 #  KiWings
 
 | Field                                                                  | Info                                   |
@@ -9,11 +15,11 @@
 
 
 ## Introduction
-KiWings is a lightweight Kiwix alternative for macOS. Kiwix is an open-source tool that allows you to read offline copies of fantastic content like Wikipedia (its a 80GB download), TED Talks etc. Originally, I started working on this tool to learn UI development on macOS, an endeavor that continues to this day. But this tool has now become a full-fledged project itself.
+KiWings is a lightweight Kiwix alternative for macOS. Kiwix is an open-source tool that allows you to read offline copies of fantastic content like Wikipedia (its a 80GB download), TED Talks etc. Orig[...]  
 
-Under the hood, this tool is a front-end for `kiwix-serve` designed for macOS 11.3 and later. `kiwix-serve` is a tool designed by Kiwix team, which can work as a standalone content server, but as of writing this, is not directly released as macOS binary, though compilation is supported.
+Under the hood, this tool is a front-end for `kiwix-serve` designed for macOS 11.3 and later. `kiwix-serve` is a tool designed by Kiwix team, which can work as a standalone content server, but as of w[...]  
 
-**🔥WARNING: Bugs and shortcomings are unfortunately commonplace in software. On my part, I'm releasing the tool as a sandboxed app (meaning macOS will restrict its capabilities to do any damage), but this tool is RELEASED AS IS, WITH NO WARRANTY - IMPLIED OR OTHERWISE.**
+**🔥WARNING: Bugs and shortcomings are unfortunately commonplace in software. On my part, I'm releasing the tool as a sandboxed app (meaning macOS will restrict its capabilities to do any damage), b[...]  
 
 ## Features
 - Sandboxed. Less chances of damaging your computer. More peace of mind.
@@ -25,7 +31,7 @@ Under the hood, this tool is a front-end for `kiwix-serve` designed for macOS 11
 
 | Stopped                                                                  | Running                                   |
 |---------------------------------------------------------------------------------|-----------------------------------------------|
-| ![KiWings Stopped](https://github.com/technusm1/kiwings/raw/main/screenshots/Screenshot-Stopped.png) | ![KiWings Running](https://github.com/technusm1/kiwings/raw/main/screenshots/Screenshot-Running.png) |
+| ![KiWings Stopped](https://github.com/technusm1/kiwings/raw/main/screenshots/Screenshot-Stopped.png) | ![KiWings Running](https://github.com/technusm1/kiwings/raw/main/screenshots/Screenshot-Running[...]  
 
 ## Installation & Requirements
 - Please make sure you have macOS 11.3 or later installed on your machine.
@@ -42,7 +48,7 @@ There are 3 simple steps:
 Easy, right?
 
 ## Giving feedback
-Before you raise an issue, please make sure to search the **Issues** section properly to see if there isn't any issue already filed for the problem you're facing. Being a bit busy these days, it may not be possible for me to attend to your concerns in a timely manner. That said, your feedback is extremely valuable and appreciated. I may not be able to reply, but I do read in a timely manner.
+Before you raise an issue, please make sure to search the **Issues** section properly to see if there isn't any issue already filed for the problem you're facing. Being a bit busy these days, it may n[...]  
 
 ## Credits
 - Kiwix team's `kiwix-tools`. Source code is available here: https://github.com/kiwix/kiwix-tools
