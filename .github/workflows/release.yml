@@ -1,0 +1,161 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Build and Release DMG
+    runs-on: macos-14  # macOS 14 for backward compatibility (has Xcode 15.4 default, supports back to 15.0.1)
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install semantic-release
+        run: |
+          npm install -g \
+            semantic-release \
+            @semantic-release/git \
+            @semantic-release/changelog \
+            @semantic-release/exec \
+            conventional-changelog-conventionalcommits
+
+      - name: Determine next version
+        id: version
+        run: |
+          npx semantic-release --dry-run --no-ci
+          VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Next version: $VERSION"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update version in project
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          # Update Info.plist with new version
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" "Kiwings/Info.plist" || true
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $VERSION" "Kiwings/Info.plist" || true
+
+      - name: Restore Swift Package Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
+            .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Build Release
+        run: |
+          xcodebuild clean archive \
+            -project Kiwings.xcodeproj \
+            -scheme Kiwings \
+            -configuration Release \
+            -archivePath ./build/Kiwings.xcarchive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Export App
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath ./build/Kiwings.xcarchive \
+            -exportPath ./build/Release \
+            -exportOptionsPlist .github/workflows/ExportOptions.plist
+
+      - name: Create DMG
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          # Create a temporary directory for DMG contents
+          mkdir -p dmg_temp
+          cp -R ./build/Release/Kiwings.app dmg_temp/
+
+          # Create Applications symlink
+          ln -s /Applications dmg_temp/Applications
+
+          # Create DMG
+          hdiutil create -volname "Kiwings" \
+            -srcfolder dmg_temp \
+            -ov -format UDZO \
+            "Kiwings-${VERSION}.dmg"
+
+          echo "dmg_path=Kiwings-${VERSION}.dmg" >> $GITHUB_ENV
+
+      - name: Calculate checksums
+        run: |
+          shasum -a 256 "${{ env.dmg_path }}" > "${{ env.dmg_path }}.sha256"
+          cat "${{ env.dmg_path }}.sha256"
+
+      - name: Create Release Notes
+        id: release_notes
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          cat > release_notes.md << 'EOF'
+          ## Installation
+
+          1. Download the DMG file below
+          2. Open the DMG file
+          3. Drag Kiwings.app to your Applications folder
+          4. Launch Kiwings from your Applications folder
+
+          ## Checksums
+
+          SHA-256: `$(cat ${{ env.dmg_path }}.sha256 | awk '{print $1}')`
+
+          ---
+
+          EOF
+
+          # Add changelog if it exists
+          if [ -f CHANGELOG.md ]; then
+            echo "## Changes in this version" >> release_notes.md
+            echo "" >> release_notes.md
+            # Extract latest version changes from CHANGELOG
+            sed -n "/## \[${VERSION}\]/,/## \[/p" CHANGELOG.md | sed '$d' >> release_notes.md || true
+          fi
+
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+      - name: Upload DMG to Release
+        if: steps.version.outputs.version != ''
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          files: |
+            ${{ env.dmg_path }}
+            ${{ env.dmg_path }}.sha256
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Kiwings-${{ steps.version.outputs.version }}
+          path: |
+            ${{ env.dmg_path }}
+            ${{ env.dmg_path }}.sha256
